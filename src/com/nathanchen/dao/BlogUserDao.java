@@ -20,7 +20,7 @@ public interface BlogUserDao
 	 * Create a new comment
 	 * 
 	 * */
-	public void createComment(Comment comment);
+	public void createComment(Comment comment, String articleId, String commentId);
 	
 	/**
 	 * @param articleId
@@ -28,7 +28,15 @@ public interface BlogUserDao
 	 * @return ONE article's all comments
 	 * 
 	 * */
-	public List<Comment> getComments(String articleId);
+	public List<Comment> getCommentsOfOneArticle(String articleId);
+	
+	/**
+	 * @param articleId
+	 * 
+	 * @return author's name who published the latest comment under one article
+	 * 
+	 * */
+	public String getAuthorOfLatestCommentOfOneArticle(String articleId);
 	
 	/**
 	 * @param articleId
@@ -36,7 +44,7 @@ public interface BlogUserDao
 	 * @return number of comments belong to an article
 	 * 
 	 * */
-	public String getNumberOfComments(String articleId);
+	public String getNumberOfCommentsOfOneArticle(String articleId);
 	
 	/**
 	 * @param article
@@ -54,7 +62,7 @@ public interface BlogUserDao
 	 * 		articles are displayed in descending order according to publish date
 	 * 
 	 * */
-	public List<Article> getArticles(String author);
+	public List<Article> getOneAuthorArticles(String author);
 	
 	/**
 	 * @param articleId
@@ -74,20 +82,70 @@ public interface BlogUserDao
 	public void updateTags(List<Tag> tags, String articleId);
 	
 	/**
-	 * @param articleId
-	 * 
-	 * @return one article's all tags 
-	 * 
-	 * */
-	public List<Tag> getTags(String articleId);
-	
-	/**
 	 * @param tag name
 	 * 
 	 * @return all articles contain this tag
 	 * 
 	 * */
 	public List<Article> getTagDistribution(String tagName);
+	
+	/**
+	 * @param author name
+	 * 
+	 * @return one author's latest article
+	 * 
+	 * */
+	public Article getOneAuthorLatestArticle(String author);
+	
+	/**
+	 * @param author name
+	 * 
+	 * @return one author's top10 latest articles
+	 * 
+	 * */
+	public List<Article> getOneAuthorTop10LatestArticles(String author);
+	
+	/**
+	 * @return one latest article of all
+	 * 
+	 * */
+	public Article getLatestArticlesOfAll();
+	
+	/**
+	 * @return top10 latest articles of all
+	 * 
+	 * */
+	public List<Article> getTop10LatestArticlesOfAll();
+	
+	/**
+	 * 
+	 * search for the tag named accordingly
+	 * 
+	 * @param tag name
+	 * 
+	 * @return Tag object with this name 
+	 * 			
+	 * */
+	public Tag findOrCreateByNameAndArticleId(String name, String articleId);
+	
+	/**
+	 * only consider top 5 tags
+	 * 
+	 * @param articleId
+	 * 
+	 * @return List<Tag> -> a list of tags belong to one article
+	 * 
+	 * */
+	public List<Tag> getTagsOfOneArticle(String articleId);
+	
+	/**
+	 * 
+	 * @param tag name
+	 * 
+	 * @return String[] -> an array of articleIds reflecting article contains the tag
+	 * 
+	 * */
+	public String[] getArticlesByTag(String tagName);
 	
 	
 }

@@ -29,29 +29,45 @@ body {
     text-shadow: 1px 2px 2px #000;
 }
 
+#logo a {
+    color: #fff;
+   
+}
+#logo a:link { 
+	text-decoration: none;
+}
+
 #logo span {
     color: #f00;
     font-size: 70%;
 }
 
 #tools {
+	font-size: 17px;
     list-style: none;
     margin: 0;
     padding: 0;
     position: absolute;
     right: 0;
-    top: 30px;
-    right: 20px;
+    top: 32px;
+    right: 80px;
 }
 
+#tools li{ 
+	margin-bottom:10px; 
+	margin-left: 80px;
+	float:left
+} 
+
 #tools a {
-    color: #fff;
+    color: #ccc;
+    font-family: Arial;
     text-decoration: none;
 }
 
 #title {
     background: #B8C569;
-    padding: 20px 30px 30px 20px;
+    padding: 10px 15px 15px 20px;
     margin: 20px 0;
     color: #3C4313;
     position: relative;
@@ -282,6 +298,7 @@ form textarea {
     width: 70%;
     height: 150px;
 }
+
 
 form input, form textarea {
     font-size: 14px;

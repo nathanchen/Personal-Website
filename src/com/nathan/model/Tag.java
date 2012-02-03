@@ -1,6 +1,6 @@
 package com.nathan.model;
 
-public class Tag 
+public class Tag implements Comparable<Tag> 
 {
 	private String tagName;
 	private int number;
@@ -35,5 +35,10 @@ public class Tag
 
 	public void setNumber(int number) {
 		this.number = number;
+	}
+	
+	public int compareTo(Tag otherTag)
+	{
+		return tagName.compareTo(otherTag.tagName);
 	}
 }
