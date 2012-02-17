@@ -43,25 +43,23 @@ body {
 }
 
 #tools {
-	font-size: 17px;
+	font-size: 20px;
     list-style: none;
     margin: 0;
     padding: 0;
     position: absolute;
-    right: 0;
     top: 32px;
-    right: 80px;
+    right: 250px;
 }
 
 #tools li{ 
 	margin-bottom:10px; 
-	margin-left: 80px;
-	float:left
+	margin-left: 40px;
+	float:left;
 } 
 
 #tools a {
     color: #ccc;
-    font-family: Arial;
     text-decoration: none;
 }
 
@@ -561,4 +559,40 @@ tr.odd {
 
 .hasError {
     background: pink;
+}
+.search{
+	position: absolute;
+    bottom:12px; 
+}
+
+.search form{
+	background: #364B66 !important;
+}
+
+.search form .input{
+height:16px;
+width: 180px;
+border: 1px solid #0086C6;
+font-size:14px;
+background:#fff url(../images/search_btn.gif) no-repeat right 0;
+}
+
+.search form .label{
+color:#ccc;
+position:absolute;
+margin-left:12px;
+top:10px;
+display:block;
+height:22px;
+line-height:22px;
+font-size:12px;
+}
+.search form span.submit{
+cursor:pointer;
+position:absolute;
+left:180px;
+top:6px;
+width:20px;
+height:20px;
+text-indent:-999em;
 }

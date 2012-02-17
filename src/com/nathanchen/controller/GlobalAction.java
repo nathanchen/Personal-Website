@@ -12,7 +12,6 @@ import com.nathan.model.Tag;
 import com.nathanchen.dao.BlogUserDao;
 import com.nathanchen.dao.DaoFactory;
 import com.opensymphony.xwork2.ActionSupport;
-import com.sun.net.httpserver.Authenticator.Failure;
 
 public class GlobalAction extends ActionSupport implements SessionAware {
 

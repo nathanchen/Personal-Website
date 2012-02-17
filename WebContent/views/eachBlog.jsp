@@ -71,7 +71,6 @@
 				<s:actionerror/>
 				<s:if test="isError gt 0">
 					<p class="error">
-						
 			            All fields are required!
 			        </p>
 				</s:if>
