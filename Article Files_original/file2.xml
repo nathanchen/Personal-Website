@@ -1,0 +1,27 @@
+<Article>
+	<ArticleId>
+		2
+	</ArticleId>
+	<Title>file two
+	</Title>
+
+	<Tag>two
+	</Tag>
+	<Tag>same
+	</Tag>
+	<Tag>1
+	</Tag>
+
+	<ArticleBody>this is file two, 1 2 3 4 5 6. nihao 你好
+	</ArticleBody>
+
+	<Comment>
+		file
+	</Comment>
+	<Comment>
+		two
+	</Comment>
+	<Comment>
+		comment123
+	</Comment>
+</Article>

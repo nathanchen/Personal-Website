@@ -10,15 +10,15 @@
 <body>
 	<s:include value="headerTitle.jsp"></s:include>
 	<div id="main">
-		<s:if test="similarPosts.size gt 0">
-			<h3>有 <s:property value="similarPosts.size()"/> 篇文章含有标签“<s:property value="queryTag"/>”</h3>
+		<s:if test="searchResults.size gt 0">
+			<h3>有 <s:property value="searchResults.size()"/> 篇文章含有关键字“<s:property value="keyword"/>”</h3>
 		</s:if>
 		<s:else>
-			<h3>没有文章含有标签“<s:property value="queryTag"/>”</h3>
+			<h3>没有文章含有关键字“<s:property value="keyword"/>”</h3>
 		</s:else>
 	
 		<div class="older-posts">
-				<s:iterator value="similarPosts">
+				<s:iterator value="searchResults">
 					<div class="post">
 						<h2 class="post-title">
 							<s:url var="gotoBlogUrl" action="gotoBlog" namespace="/struts">

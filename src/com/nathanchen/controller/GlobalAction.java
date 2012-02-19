@@ -8,6 +8,7 @@ import org.apache.struts2.interceptor.SessionAware;
 
 import com.nathan.model.Article;
 import com.nathan.model.Comment;
+import com.nathan.model.GlobalSearchResult;
 import com.nathan.model.Tag;
 import com.nathanchen.dao.BlogUserDao;
 import com.nathanchen.dao.DaoFactory;
@@ -41,6 +42,9 @@ public class GlobalAction extends ActionSupport implements SessionAware {
 	private List<Article> similarPosts;
 	private String queryTag;
 	
+	// globalSearch.action
+	private String keyword;
+	private ArrayList<Article> searchResults;
 	
 	
 	public String execute()
@@ -110,6 +114,19 @@ public class GlobalAction extends ActionSupport implements SessionAware {
 		return SUCCESS;
 	}
 	
+	public String globalSearch()
+	{
+		searchResults = new ArrayList<Article>();
+		String searchWord = keyword;
+		GlobalSearchManager searchManager = new GlobalSearchManager(searchWord);
+		ArrayList<GlobalSearchResult> temp = (ArrayList<GlobalSearchResult>) searchManager.globalSearch();
+		for(GlobalSearchResult gsr : temp)
+		{
+			searchResults.add(assignGlobalSearchResult(gsr.getArticleId()));
+		}
+		return SUCCESS;
+	}
+	
 	public String similarPosts()
 	{
 		similarPosts = new ArrayList<Article>();
@@ -135,6 +152,23 @@ public class GlobalAction extends ActionSupport implements SessionAware {
 			return SUCCESS;
 		}
 		return ERROR;
+	}
+	
+	public Article assignGlobalSearchResult(String articleId)
+	{
+		try
+		{
+			if(blogUserDao == null)
+			{
+				blogUserDao = DaoFactory.getInstance().getBlogUserDao();
+			}
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		Article article = blogUserDao.getArticle(articleId);
+		return article;
 	}
 
 	public Article getLatestArticleOfAll() {
@@ -228,6 +262,14 @@ public class GlobalAction extends ActionSupport implements SessionAware {
 		this.hasError = hasError;
 	}
 
+	public String getKeyword() {
+		return keyword;
+	}
+
+	public void setKeyword(String keyword) {
+		this.keyword = keyword;
+	}
+
 	public void setBlogCommentName(String blogCommentName) {
 		this.blogCommentName = blogCommentName;
 	}
@@ -251,6 +293,14 @@ public class GlobalAction extends ActionSupport implements SessionAware {
 	@Override
 	public void setSession(Map<String, Object> value) {
 		session = value;
+	}
+
+	public ArrayList<Article> getSearchResults() {
+		return searchResults;
+	}
+
+	public void setSearchResults(ArrayList<Article> searchResults) {
+		this.searchResults = searchResults;
 	}
 
 }

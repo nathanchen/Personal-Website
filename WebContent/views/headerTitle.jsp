@@ -25,11 +25,11 @@
 			<li><a href="#">About Me</a></li>
 			<li>
 				<div class="search">
-					<form action="" method="post" name="search" id="search">
+					<form action="globalSearch" method="post" name="search" id="search" namespace="/struts">
 						<input name="keyword" type="text" class="input" id="keyword"
 							value="" style="float: left;"> <label for="keyword"
 							id="for-keyword" class="label">我要搜索</label> <span class="submit"
-							id="frmsearch" onclick="return formSubmit('frmsearch');">搜索</span>
+							id="frmsearch" onclick="return formSubmit('formsearch')">搜索</span>
 					</form>
 				</div> <script type="text/javascript">
 					var $ = function(id) {

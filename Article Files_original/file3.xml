@@ -1,0 +1,27 @@
+<Article>
+	<ArticleId>
+		3
+	</ArticleId>
+	<Title>file three
+	</Title>
+
+	<Tag>three
+	</Tag>
+	<Tag>same
+	</Tag>
+	<Tag>11
+	</Tag>
+
+	<ArticleBody>this is file three, 1 2 3 4 5 6. nihao 你好
+	</ArticleBody>
+
+	<Comment>
+		file
+	</Comment>
+	<Comment>
+		three
+	</Comment>
+	<Comment>
+		comment123on
+	</Comment>
+</Article>

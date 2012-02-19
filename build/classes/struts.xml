@@ -14,7 +14,6 @@
 			</result>
 		</action>	
 		
-			
 		<action name="gotoBlog" class="com.nathanchen.controller.GlobalAction" method="gotoBlog">
 			<result name="success">
 				/views/eachBlog.jsp
@@ -44,6 +43,13 @@
 				/views/eachBlog.jsp
 			</result>
 		</action>
+		
+		<action name="globalSearch" class="com.nathanchen.controller.GlobalAction" method="globalSearch">
+			<result name="success">
+				/views/globalSearchResults.jsp
+			</result>
+		</action>
+		
 	</package>
 	
 </struts>
