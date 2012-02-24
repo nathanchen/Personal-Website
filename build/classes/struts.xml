@@ -4,23 +4,26 @@
     "http://struts.apache.org/dtds/struts-2.0.dtd">
 
 <struts>
-	<constant name="struts.devMode" value="true"/>
-    <constant name="struts.custom.i18n.resources" value="Nathan_website" />
-    
+	<constant name="struts.devMode" value="true" />
+	<constant name="struts.custom.i18n.resources" value="Nathan_website" />
+
 	<package name="basicstruts2" extends="struts-default">
-		<action name="index" class="com.nathanchen.controller.GlobalAction" method="index">
+		<action name="index" class="com.nathanchen.controller.GlobalAction"
+			method="index">
 			<result name="success">
 				/views/index.jsp
 			</result>
-		</action>	
-		
-		<action name="gotoBlog" class="com.nathanchen.controller.GlobalAction" method="gotoBlog">
+		</action>
+
+		<action name="gotoBlog" class="com.nathanchen.controller.GlobalAction"
+			method="gotoBlog">
 			<result name="success">
 				/views/eachBlog.jsp
 			</result>
 		</action>
-		
-		<action name="postComment" class="com.nathanchen.controller.GlobalAction" method="postComment">
+
+		<action name="postComment" class="com.nathanchen.controller.GlobalAction"
+			method="postComment">
 			<result name="success" type="redirectAction">
 				<param name="namespace">/struts</param>
 				<param name="actionName">gotoBlog</param>
@@ -34,8 +37,9 @@
 				<param name="isError">${1}</param>
 			</result>
 		</action>
-		
-		<action name="similarPosts" class="com.nathanchen.controller.GlobalAction" method="similarPosts">
+
+		<action name="similarPosts" class="com.nathanchen.controller.GlobalAction"
+			method="similarPosts">
 			<result name="success">
 				/views/listTagged.jsp
 			</result>
@@ -43,13 +47,26 @@
 				/views/eachBlog.jsp
 			</result>
 		</action>
-		
-		<action name="globalSearch" class="com.nathanchen.controller.GlobalAction" method="globalSearch">
+
+		<action name="globalSearch" class="com.nathanchen.controller.GlobalAction"
+			method="globalSearch">
 			<result name="success">
 				/views/globalSearchResults.jsp
 			</result>
 		</action>
-		
+
+		<action name="adminShowAllPostsInfo" class="com.nathanchen.controller.AdminAction"
+			method="adminShowAllPostsInfo">
+			<result name="success">
+				/views/adminPostsList.jsp
+			</result>
+		</action>
+
+		<action name="adminEditBlog" class="com.nathanchen.controller.AdminAction"
+			method="adminEditBlog">
+			<result name="success">
+				/views/eachBlog.jsp
+			</result>
+		</action>
 	</package>
-	
 </struts>

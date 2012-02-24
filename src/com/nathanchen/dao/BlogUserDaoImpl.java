@@ -14,9 +14,9 @@ import javax.sql.DataSource;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.nathan.model.Article;
-import com.nathan.model.Comment;
-import com.nathan.model.Tag;
+import com.nathanchen.model.Article;
+import com.nathanchen.model.Comment;
+import com.nathanchen.model.Tag;
 
 public class BlogUserDaoImpl implements BlogUserDao
 {
@@ -36,6 +36,7 @@ public class BlogUserDaoImpl implements BlogUserDao
 	
 	String getNumberOfCommentsOfOneArticle = "select count(*) from Nathan_comments where article_id = ? order by publish_date desc"; 
 	String getAuthorOfLatestCommentOfOneArticle = "select viewer_name from nathan_comments where article_id = ? order by publish_date desc limit 1";
+	String getLatestCommentOfOneArticle = "select * from nathan_comments where article_id = ? order by publish_date desc limit 1";
 	
 	String getCommentsOfOneArticle = "select * from Nathan_comments where article_id = ? order by publish_date desc";
 	
@@ -46,6 +47,10 @@ public class BlogUserDaoImpl implements BlogUserDao
 	String getTagsOfOneArticle = "select * from nathan_tag_article where article_id = ? order by tag_appears desc ";
 	
 	String getArticlesByTag = "select article_id from Nathan_tag_article where tag_name = ?";
+	
+	String getLatestArticleId = getLatestArticlesOfAll;
+	
+	String getDateOfComment = "select publish_date from Nathan_comments where article_id = ? and comment_id = ?";
 	
 	/***********************************************************************************************************/
 	
@@ -628,4 +633,143 @@ public class BlogUserDaoImpl implements BlogUserDao
 		}
 		return null;	
 	}
+
+	@Override
+	public List<Article> getAllArticles() 
+	{
+		ArrayList<Article> articles = new ArrayList<Article>();
+		try
+		{
+			Connection conn = ds.getConnection();
+			PreparedStatement stmt = conn.prepareStatement(getAllArticles);
+			
+			ResultSet rs = stmt.executeQuery();
+			while(rs.next())
+			{
+				Article article = new Article();
+				String articleId = rs.getString("article_id");
+				article.setArticleId(articleId);
+				article.setAuthor(rs.getString("author_name"));
+				article.setDate(rs.getDate("publish_date"));
+				article.setTitle(rs.getString("article_title"));
+				String numberOfComments = getNumberOfCommentsOfOneArticle(articleId);
+				int num = Integer.parseInt(numberOfComments);
+				article.setNumberOfComments(num);
+				if(num < 1)
+				{
+					article.setAuthorOfLatestComment(null);
+				}
+				else
+				{
+					Comment comment = getLatestCommentOfOneArticle(articleId);
+					String authorOfLatestComment = comment.getName();
+					Date publishDate = comment.getDate();
+					article.setAuthorOfLatestComment(authorOfLatestComment);
+					article.setDateOfLatestComment(publishDate);
+				}
+				articles.add(article);
+			}
+			rs.close();
+			stmt.close();
+			conn.close();
+			log.debug("** getAllArticles success");
+			return articles;
+		}
+		catch(Exception e)
+		{
+			log.error("** getAllArticles fails");
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public String getLatestArticleId() 
+	{
+		String articleId = null;
+		try
+		{
+			
+			Connection conn = ds.getConnection();
+			PreparedStatement stmt = conn.prepareStatement(getLatestArticleId);
+			
+			ResultSet rs = stmt.executeQuery();
+			while(rs.next())
+			{
+				articleId = rs.getString("article_id");
+			}
+			rs.close();
+			stmt.close();
+			conn.close();
+			log.debug("** getLatestArticleId success");
+			return articleId;
+		}
+		catch(Exception e)
+		{
+			log.error("** getLatestArticleId fails");
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public Date getDateOfComment(String articleId, String commentId) 
+	{
+		Date publishDate = null;
+		try
+		{
+			Connection conn = ds.getConnection();
+			PreparedStatement stmt = conn.prepareStatement(getDateOfComment);
+			stmt.setString(1, articleId);
+			stmt.setString(2, commentId);
+			
+			ResultSet rs = stmt.executeQuery();
+			while(rs.next())
+			{
+				publishDate = rs.getDate("publish_date");
+			}
+			rs.close();
+			stmt.close();
+			conn.close();
+			log.debug("** getDateOfComment success");
+			return publishDate;
+		}
+		catch(Exception e)
+		{
+			log.error("** getDateOfComment fails");
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public Comment getLatestCommentOfOneArticle(String articleId) 
+	{
+		Comment comment = new Comment();
+		try
+		{
+			Connection conn = ds.getConnection();
+			PreparedStatement stmt = conn.prepareStatement(getLatestCommentOfOneArticle);
+			stmt.setString(1, articleId);
+			ResultSet rs = stmt.executeQuery();
+			while(rs.next())
+			{
+				comment.setDate(rs.getDate("date"));
+				comment.setName(rs.getString("name"));
+			}
+			rs.close();
+			stmt.close();
+			conn.close();
+			log.debug("** getLatestCommentOfOneArticle success");
+			return comment;
+		}
+		catch(Exception e)
+		{
+			log.error("** getLatestCommentOfOneArticle fails");
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	
 }

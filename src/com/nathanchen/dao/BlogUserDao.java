@@ -1,10 +1,11 @@
 package com.nathanchen.dao;
 
+import java.util.Date;
 import java.util.List;
 
-import com.nathan.model.Article;
-import com.nathan.model.Comment;
-import com.nathan.model.Tag;
+import com.nathanchen.model.Article;
+import com.nathanchen.model.Comment;
+import com.nathanchen.model.Tag;
 
 public interface BlogUserDao 
 {
@@ -147,5 +148,57 @@ public interface BlogUserDao
 	 * */
 	public String[] getArticlesByTag(String tagName);
 	
+	/**
+	 * @return List<Article> -> all articles in the database
+	 * 
+	 * */
+	public List<Article> getAllArticles();
 	
+	/**
+	 * 
+	 * @return String latestArticleId -> the articleId of the latest published article
+	 * 
+	 * */
+	public String getLatestArticleId();
+	
+	/**
+	 * @param articleId & commentId, which form the primary key for table nathan_comment
+	 * 
+	 * @return publish date of one comment
+	 * */
+	public Date getDateOfComment(String articleId, String commentId);
+	
+	/**
+	 * @param articleId
+	 * 
+	 * @return latest comment of one article
+	 * */
+	public Comment getLatestCommentOfOneArticle(String articleId);
+	
+	/**
+	 * @param articleId
+	 * 
+	 * @return 1: the article specified has been successfully deleted
+	 * 		   0: nothing has been deleted
+	 * 		  -1: nothing has been deleted and errors have been made 
+	 * */
+	public int deleteArticle(String articleId);
+	
+	/**
+	 * @param articleId
+	 * 
+	 * @return 1: the article specified has been successfully created
+	 * 		   0: nothing has been created
+	 * 		  -1: nothing has been created and errors have been made 
+	 * */
+	public int createArticle(String articleId);
+	
+	/**
+	 * @param articleId
+	 * 
+	 * @return 1: the article specified has been successfully edited
+	 * 		   0: nothing has been edited
+	 * 		  -1: nothing has been edited and errors have been made 
+	 * */
+	public int editArticle(String articleId);
 }

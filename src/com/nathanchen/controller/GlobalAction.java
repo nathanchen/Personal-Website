@@ -6,24 +6,26 @@ import java.util.Map;
 
 import org.apache.struts2.interceptor.SessionAware;
 
-import com.nathan.model.Article;
-import com.nathan.model.Comment;
-import com.nathan.model.GlobalSearchResult;
-import com.nathan.model.Tag;
 import com.nathanchen.dao.BlogUserDao;
 import com.nathanchen.dao.DaoFactory;
+import com.nathanchen.lucene.GlobalSearchManager;
+import com.nathanchen.model.Article;
+import com.nathanchen.model.Comment;
+import com.nathanchen.model.GlobalSearchResult;
+import com.nathanchen.model.Tag;
 import com.opensymphony.xwork2.ActionSupport;
 
 public class GlobalAction extends ActionSupport implements SessionAware {
 
 	private Map session;
 	
+	private BlogUserDao blogUserDao;
 	// index.action
 	private Article latestArticleOfAll;
 	private int numberOfComments;
 	private String authorOfLatestComment;
 	private List<Article> top10ArticlesOfAll;
-	private BlogUserDao blogUserDao;
+	
 	
 	// gotoBlog.action
 	private Article eachBlog;

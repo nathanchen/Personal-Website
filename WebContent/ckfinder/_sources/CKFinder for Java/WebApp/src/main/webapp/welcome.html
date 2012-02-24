@@ -1,0 +1,140 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--
+ * CKFinder
+ * ========
+ * http://ckfinder.com
+ * Copyright (C) 2007-2012, CKSource - Frederico Knabben. All rights reserved.
+ *
+ * The software, this file and its contents are subject to the CKFinder
+ * License. Please read the license.txt file before using, installing, copying,
+ * modifying or distribute this file or part of its contents. The contents of
+ * this file is part of the Source Code of CKFinder.
+-->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>CKFinder - Samples</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="robots" content="noindex, nofollow" />
+	<style type="text/css">
+html, body, h1, h2, h3, h4, h5, h6, div, span, blockquote, p, address, form, fieldset, img, ul, ol, dl, dt, dd, li, hr, table, td, th, strong, em, sup, sub, dfn, ins, del, q, cite, var, samp, code, kbd, tt, pre {
+	line-height: 1.5em;
+}
+
+pre,
+code,
+kbd,
+samp,
+tt{
+  font-family: monospace,monospace;
+  font-size: 1em;
+}
+
+body, input, textarea {
+	color: #333333;
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+	font-size: 75%;
+}
+
+a.samples {
+	color: #92B901;
+	text-decoration:none;
+}
+
+a.samples:hover {
+  text-decoration:underline;
+	color: #BED567;
+}
+
+#footer hr
+{
+	margin: 10px 0 15px 0;
+	height: 1px;
+	border: solid 1px gray;
+	border-bottom: none;
+}
+
+#footer p
+{
+	margin: 0 10px 10px 10px;
+	float: left;
+}
+
+#footer #copy
+{
+	float: right;
+}
+
+h1.samples {
+  color:#92B901;
+  font-size:200%;
+  font-weight:normal;
+  margin: 0;
+  padding: 0;
+}
+
+h2.samples {
+  color:#000000;
+  font-size:130%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+	padding:10px 30px;
+}
+
+p, blockquote, address, form, pre, dl, h1.samples, h2.samples {
+	margin-bottom:15px;
+}
+
+.description {
+	border: 1px dotted #B7B7B7;
+	margin-bottom: 10px;
+	padding: 20px 10px 20px;
+}
+	</style>
+</head>
+<body>
+	<h1 class="samples">
+		CKFinder for Java
+	</h1>
+	<h2 class="samples">
+		CKFinder Samples Site
+	</h2>
+	<p>
+		The samples of CKFinder integration are available in the <a class="samples" href="ckfinder/_samples/index.html">_samples folder</a>.
+	</p>
+	<div class="description">
+		Please note that due to security reasons by default CKFinder is disabled and will show only the following message:
+		<em>The file browser is disabled for security reasons</em><br />
+		When you reviewed the settings in <b>WEB-INF/config.xml</b> and are ready to go, enable the program with:
+		<p>
+		<code>
+		 &lt;enabled&gt;true&lt;/enabled&gt;
+		</code>
+		</p>
+		Note: on production servers it is recommended to use a more fine-grained authentication method
+		by overriding the <code>checkAuthentication</code> method from the <code>Configuration</code> class
+		to ensure that requests are coming from an authenticated user.</div>
+	<h2 class="samples">
+		Useful Links
+	</h2>
+	<ul class="samples">
+		<li><a class="samples" href="http://docs.cksource.com/CKFinder_2.x/Developers_Guide">CKFinder for Java - Documentation</a><br />The official documentation website.</li>
+		<li><a class="samples" href="http://ckfinder.com/">CKFinder - Product Website</a><br />CKFinder website.</li>
+		<li><a class="samples" href="ckfinder/changelog.txt">CKFinder for Java - Changelog</a><br />The full list of changes.</li>
+	</ul>
+	<div id="footer">
+		<hr />
+		<p>
+			CKFinder - Ajax File Manager - <a class="samples" href="http://ckfinder.com/">http://ckfinder.com</a>
+		</p>
+		<p id="copy">
+			Copyright &copy; 2003-2012, <a class="samples" href="http://cksource.com/">CKSource</a> - Frederico Knabben. All rights reserved.
+		</p>
+	</div>
+</body>
+</html>
