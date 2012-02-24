@@ -49,8 +49,14 @@
 									<td><s:property value="author" /></td>
 									<td><s:property value="date" /></td>
 									<td><s:property value="numberOfComments" /></td>
-									<td><s:property value="authorOfLatestComment" /></td>
-									<td><s:property value="dateOfLatestComment" /></td>
+									<s:if test="numberOfComments gt 0">
+										<td><s:property value="authorOfLatestComment" /></td>
+										<td><s:property value="dateOfLatestComment" /></td>
+									</s:if>
+									<s:else>
+										<td> - </td>
+										<td> - </td>
+									</s:else>
 								</tr>
 							</s:iterator>
 						</s:if>

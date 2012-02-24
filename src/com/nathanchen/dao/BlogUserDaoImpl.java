@@ -754,8 +754,8 @@ public class BlogUserDaoImpl implements BlogUserDao
 			ResultSet rs = stmt.executeQuery();
 			while(rs.next())
 			{
-				comment.setDate(rs.getDate("date"));
-				comment.setName(rs.getString("name"));
+				comment.setDate(rs.getDate("publish_date"));
+				comment.setName(rs.getString("viewer_name"));
 			}
 			rs.close();
 			stmt.close();

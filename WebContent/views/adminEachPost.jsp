@@ -5,13 +5,16 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; UTF-8">
 <%@ taglib prefix="s" uri="/struts-tags"%>
+<script type="text/javascript" src="../ueditor/editor_config.js"></script>
+<script type="text/javascript" src="../ueditor/editor_all.js"></script>
+<link rel="stylesheet" href="../ueditor/themes/default/ueditor.css" />
 <title>Administration</title>
 </head>
 <body id="crud">
 	<s:include value="adminHeader.jsp"></s:include>
 
 	<div id="crudContent">
-		<div id="crudShow" class="${type.name}">
+		<div id="crudShow">
 
 			<h2 id="crudShowTitle">编辑文章</h2>
 
@@ -19,37 +22,61 @@
 				<s:form action="postArticle" theme="simple" method="post"
 					namespace="/struts">
 					<div class="crudField">
-						<s:if test="article.articleId gt -1">
-							<input type="hidden" name="article.articleId"
-								value="<s:property
-						value="article.articleId" />" />
-						</s:if>
-						<br /> <label>文章标题: </label>
-						<s:textfield name="article.title" value="<s:property
-						value="article.title"  size="50"/>"></s:textfield>
-						<label>发表时间: </label>
-						<s:textfield name="article.date" value="<s:property
-						value="article.date" size="10" />"></s:textfield>
-						<label>文章正文: </label>
-						<s:textarea name="article.articleBody" value="<s:property
-						value="article.articleBody" size="50"/>"></s:textarea>
-						<label>文章作者: </label>
-						<s:textarea name="article.author" value="<s:property
-						value="article.author" size="50"/>"></s:textarea>
-						<label>文章标签: </label>
+						<table>
+							<s:if test="oneArticle.articleId gt -1">
+								<input type="hidden" name="article.articleId"
+									value="<s:property
+						value="oneArticle" />" />
+							</s:if>
+							<tr>
+								<label>文章标题: </label>
+								<s:textfield name="oneArticle.title" size="50"></s:textfield>
+								<br />
+								<br />
+							</tr>
+							<tr>
+								<label>发表时间: </label>
+								<s:textfield name="oneArticle.date" size="10"></s:textfield>
+								<br />
+								<br />
+							</tr>
+							<tr>
+								<label>文章作者: </label>
+								<s:textfield name="oneArticle.author" size="50"></s:textfield>
+								<br />
+								<br />
+							</tr>
+							<tr>
+								<label>文章标签: </label>
+								<s:textfield name="oneArticle.date" size="10"></s:textfield>
+								<br />
+								<br />
+							</tr>
+							<tr width="1000px">
+								<label>文章正文: </label>
+									<script type="text/plain" id="myEditor"><s:property value="oneArticle.articleBody" /></script>
+									<script type="text/javascript">
+										var editor = new baidu.editor.ui.Editor();
+										
+										editor.render("myEditor");
+									</script>
+								<br />
+								<br />
+							</tr>
+						</table>
 					</div>
 					<p class="crudButtons">
-						<s:submit value="提交您的评论"></s:submit>
+						<s:submit value="提交您的文章"></s:submit>
 						<s:reset value="重置"></s:reset>
 					</p>
 				</s:form>
 			</div>
 
 			<s:form action="deleteArticle" theme="simple" method="post"
-					namespace="/struts">
-			<p class="crudDelete">
-				<s:submit value="删除文章"></s:submit>
-			</p>
+				namespace="/struts">
+				<p class="crudDelete">
+					<s:submit value="删除文章"></s:submit>
+				</p>
 			</s:form>
 
 		</div>

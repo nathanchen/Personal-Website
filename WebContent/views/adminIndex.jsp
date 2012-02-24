@@ -5,9 +5,13 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; UTF-8">
 <%@ taglib prefix="s" uri="/struts-tags"%>
+<link rel="stylesheet" type="text/css" media="screen"
+	href="../stylesheets/crud.css" />
+<link rel="icon" type="image/ico" href="../images/favicon.ico"></link>
+<link rel="shortcut icon" href="../images/favicon.ico"></link>
 <title>Administration</title>
 </head>
-<body id="crud">
+<body>
 	<s:include value="adminHeader.jsp"></s:include>
 	<div id="crudContent">
 		<div id="crudIndex">
@@ -16,14 +20,14 @@
 				<thead>
 					<tr>
 						<th>Object Type</th>
-						<s:url var="adminShowAllPostsInfo" action="adminShowAllPostsInfo" namespace="/struts">
-						</s:url>
-						<th width="20%"><s:a href="%{adminShowAllPostsInfo}">Posts</s:a></th>
+						<th width="20%"></th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr>
-						<td><a href=""> </a></td>
+						<s:url var="adminShowAllPostsInfo" action="adminShowAllPostsInfo" namespace="/struts">
+						</s:url>
+						<td><s:a href="%{adminShowAllPostsInfo}">Posts</s:a></td>
 						<td class="crudNew">
 						<s:url var="adminAddNewPost" action="adminAddNewPost" namespace="/struts">
 						</s:url>

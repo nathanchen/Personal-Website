@@ -14,6 +14,13 @@
 				/views/index.jsp
 			</result>
 		</action>
+		
+		<action name="adminIndex" class="com.nathanchen.controller.AdminAction"
+			method="adminIndex">
+			<result name="success">
+				/views/adminIndex.jsp
+			</result>
+		</action>
 
 		<action name="gotoBlog" class="com.nathanchen.controller.GlobalAction"
 			method="gotoBlog">
@@ -65,7 +72,7 @@
 		<action name="adminEditBlog" class="com.nathanchen.controller.AdminAction"
 			method="adminEditBlog">
 			<result name="success">
-				/views/eachBlog.jsp
+				/views/adminEachPost.jsp
 			</result>
 		</action>
 	</package>

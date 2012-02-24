@@ -19,11 +19,16 @@ public class AdminAction extends ActionSupport implements SessionAware
 	
 	// adminEditBlog
 	private String articleId;
-	private Article article;
+	private Article oneArticle;
 	
+	public String adminIndex()
+	{
+		return SUCCESS;
+	}
 	
 	public String adminShowAllPostsInfo()
 	{
+		allPosts = new ArrayList<Article>(); 
 		try
 		{
 			if(blogUserDao == null)
@@ -46,6 +51,7 @@ public class AdminAction extends ActionSupport implements SessionAware
 	
 	public String adminEditBlog()
 	{
+		oneArticle = new Article();
 		try
 		{
 			if(blogUserDao == null)
@@ -61,13 +67,13 @@ public class AdminAction extends ActionSupport implements SessionAware
 		// edit an existing post
 		if(Integer.parseInt(articleId) != -1)
 		{
-			article = blogUserDao.getArticle(articleId);
+			oneArticle = blogUserDao.getArticle(articleId);
 		}
 		
 		// create a new post
 		else
 		{
-			article.setArticleId("-1");
+			oneArticle.setArticleId("-1");
 		}
 		
 		return SUCCESS;
@@ -96,10 +102,12 @@ public class AdminAction extends ActionSupport implements SessionAware
 	public void setArticleId(String articleId) {
 		this.articleId = articleId;
 	}
-	public Article getArticle() {
-		return article;
+
+	public Article getOneArticle() {
+		return oneArticle;
 	}
-	public void setArticle(Article article) {
-		this.article = article;
+
+	public void setOneArticle(Article oneArticle) {
+		this.oneArticle = oneArticle;
 	}
 }
