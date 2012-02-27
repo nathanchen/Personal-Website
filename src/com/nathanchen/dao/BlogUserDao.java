@@ -185,20 +185,41 @@ public interface BlogUserDao
 	public int deleteArticle(String articleId);
 	
 	/**
-	 * @param articleId
+	 * turn off autoCommit to retrieve a latest articleId
+	 * 
+	 * @param Article article
 	 * 
 	 * @return 1: the article specified has been successfully created
 	 * 		   0: nothing has been created
 	 * 		  -1: nothing has been created and errors have been made 
 	 * */
-	public int createArticle(String articleId);
+	public int createArticle(Article article);
 	
 	/**
-	 * @param articleId
+	 * @param articleId, Article article
 	 * 
 	 * @return 1: the article specified has been successfully edited
 	 * 		   0: nothing has been edited
 	 * 		  -1: nothing has been edited and errors have been made 
 	 * */
-	public int editArticle(String articleId);
+	public int editArticle(String articleId, Article article);
+	
+	/**
+	 * @param articleId
+	 * 
+	 * @return 1: all comments of the article specified have been successfully deleted
+	 * 		   0: nothing has been deleted
+	 * 		  -1: nothing has been deleted and errors have been made 
+	 * */
+	public int deleteAllComments(String articleId);
+	
+	/**
+	 * @param commentId
+	 * 
+	 * @return 1: the article specified has been successfully deleted
+	 * 		   0: nothing has been deleted
+	 * 		  -1: nothing has been deleted and errors have been made 
+	 * */
+	public int deleteOneComment(String commentId);
+	
 }

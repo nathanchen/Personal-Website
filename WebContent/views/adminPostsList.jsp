@@ -34,10 +34,11 @@
 						</thead>
 						<s:if test="allPosts.size gt 0">
 							<s:iterator value="allPosts">
-								<input type="hidden" name="articleId"
-									value="<s:property
-						value="articleId" />" />
 								<tr>
+									<input type="hidden" name="articleId"
+										value="<s:property
+						value="articleId" />" />
+
 									<td><s:url var="adminEditBlog" action="adminEditBlog"
 											namespace="/struts">
 											<s:param name="articleId">
@@ -54,8 +55,8 @@
 										<td><s:property value="dateOfLatestComment" /></td>
 									</s:if>
 									<s:else>
-										<td> - </td>
-										<td> - </td>
+										<td>-</td>
+										<td>-</td>
 									</s:else>
 								</tr>
 							</s:iterator>

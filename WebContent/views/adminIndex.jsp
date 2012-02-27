@@ -25,14 +25,18 @@
 				</thead>
 				<tbody>
 					<tr>
-						<s:url var="adminShowAllPostsInfo" action="adminShowAllPostsInfo" namespace="/struts">
+						<s:url var="adminShowAllPostsInfo" action="adminShowAllPostsInfo"
+							namespace="/struts">
 						</s:url>
 						<td><s:a href="%{adminShowAllPostsInfo}">Posts</s:a></td>
-						<td class="crudNew">
-						<s:url var="adminAddNewPost" action="adminAddNewPost" namespace="/struts">
-						</s:url>
-						<s:a href="%{adminAddNewPost}">写一篇新文章</s:a>
-						</td>
+						<td class="crudNew"><s:url var="adminEditBlog"
+								action="adminEditBlog" namespace="/struts">
+								<s:param name="articleId">
+							-1
+						</s:param>
+							</s:url> <s:a href="%{adminEditBlog}">
+						编写新文章
+					</s:a></td>
 					</tr>
 				</tbody>
 			</table>

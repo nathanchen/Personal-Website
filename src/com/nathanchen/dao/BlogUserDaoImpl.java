@@ -52,6 +52,14 @@ public class BlogUserDaoImpl implements BlogUserDao
 	
 	String getDateOfComment = "select publish_date from Nathan_comments where article_id = ? and comment_id = ?";
 	
+	String deleteArticle = "delete from Nathan_articles	where article_id = ?";
+	
+	String deleteAllComments = "delete from Nathan_comments where article_id = ?";
+	
+	String newArticle = "insert into Nathan_articles values(?,?,?,?,?)";
+	
+	String deleteOneComment = "delete from Nathan_comments where comment_id = ?";
+	
 	/***********************************************************************************************************/
 	
 	public BlogUserDaoImpl()
@@ -754,6 +762,7 @@ public class BlogUserDaoImpl implements BlogUserDao
 			ResultSet rs = stmt.executeQuery();
 			while(rs.next())
 			{
+				comment.setCommentId(rs.getString("comment_id"));
 				comment.setDate(rs.getDate("publish_date"));
 				comment.setName(rs.getString("viewer_name"));
 			}
@@ -769,6 +778,137 @@ public class BlogUserDaoImpl implements BlogUserDao
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	@Override
+	public int deleteArticle(String articleId) 
+	{
+		int result = -1;
+		try
+		{
+			Connection conn = ds.getConnection();
+			PreparedStatement stmt = conn.prepareStatement(deleteArticle);
+			stmt.setString(1, articleId);
+			result = stmt.executeUpdate();
+			stmt.close();
+			conn.close();
+			log.debug("** deleteArticle success");
+			return result;
+		}
+		catch(Exception e)
+		{
+			log.error("** deleteArticle fails");
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	@Override
+	public int createArticle(Article article) 
+	{
+		int result = -1;
+		try
+		{
+			Connection conn = ds.getConnection();
+			conn.setAutoCommit(false);
+			PreparedStatement stmt = conn.prepareStatement(newArticle);
+			String articleId = Integer.parseInt(getLatestArticleId()) + 1 + "";
+			stmt.setString(1, articleId);
+			stmt.setString(2, article.getAuthor());
+			stmt.setString(3, article.getArticleBody());
+			stmt.setString(4, article.getDateString());
+			stmt.setString(5, article.getTitle());
+			result = stmt.executeUpdate();
+			conn.commit();
+			stmt.close();
+			conn.close();
+			conn.setAutoCommit(true);
+			log.debug("** createArticle success");
+			return result;
+		}
+		catch(Exception e)
+		{
+			log.error("** createArticle fails");
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	@Override
+	public int editArticle(String articleId, Article article) 
+	{
+		int result = -1;
+		try
+		{
+			Connection conn = ds.getConnection();
+			deleteArticle(articleId);
+			conn.setAutoCommit(false);
+			PreparedStatement stmt = conn.prepareStatement(newArticle);
+			stmt.setString(1, articleId);
+			stmt.setString(2, article.getAuthor());
+			stmt.setString(3, article.getArticleBody());
+			stmt.setString(4, article.getDateString());
+			stmt.setString(5, article.getTitle());
+			result = stmt.executeUpdate();
+			conn.commit();
+			conn.setAutoCommit(true);
+			stmt.close();
+			conn.close();
+			log.debug("** editArticle success");
+			return result;
+		}
+		catch(Exception e)
+		{
+			log.error("** editArticle fails");
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	@Override
+	public int deleteAllComments(String articleId) 
+	{
+		int result = -1;
+		try
+		{
+			Connection conn = ds.getConnection();
+			PreparedStatement stmt = conn.prepareStatement(deleteAllComments);
+			stmt.setString(1, articleId);
+			result = stmt.executeUpdate();
+			stmt.close();
+			conn.close();
+			log.debug("** deleteAllComments success");
+			return result;
+		}
+		catch(Exception e)
+		{
+			log.error("** deleteAllComments fails");
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	@Override
+	public int deleteOneComment(String commentId) 
+	{
+		int result = -1;
+		try
+		{
+			Connection conn = ds.getConnection();
+			PreparedStatement stmt = conn.prepareStatement(deleteOneComment);
+			stmt.setString(1, commentId);
+			result = stmt.executeUpdate();
+			stmt.close();
+			conn.close();
+			log.debug("** deleteOneComment success");
+			return result;
+		}
+		catch(Exception e)
+		{
+			log.error("** deleteOneComment fails");
+			e.printStackTrace();
+		}
+		return result;
 	}
 	
 	

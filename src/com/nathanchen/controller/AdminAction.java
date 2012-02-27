@@ -8,18 +8,28 @@ import org.apache.struts2.interceptor.SessionAware;
 import com.nathanchen.dao.BlogUserDao;
 import com.nathanchen.dao.DaoFactory;
 import com.nathanchen.model.Article;
+import com.nathanchen.model.Comment;
 import com.opensymphony.xwork2.ActionSupport;
 
 public class AdminAction extends ActionSupport implements SessionAware 
 {
 	private BlogUserDao blogUserDao;
+	private String articleId;
 	
 	// showAllPostsInfo
 	private ArrayList<Article> allPosts;
 	
 	// adminEditBlog
-	private String articleId;
+	// postArticle
 	private Article oneArticle;
+	private ArrayList<Comment> allComments;
+	private String commentId;
+	
+	// deleteArticle
+	
+	// deleteComment
+	
+	
 	
 	public String adminIndex()
 	{
@@ -51,6 +61,7 @@ public class AdminAction extends ActionSupport implements SessionAware
 	
 	public String adminEditBlog()
 	{
+		allComments = new ArrayList<Comment>();
 		oneArticle = new Article();
 		try
 		{
@@ -68,6 +79,7 @@ public class AdminAction extends ActionSupport implements SessionAware
 		if(Integer.parseInt(articleId) != -1)
 		{
 			oneArticle = blogUserDao.getArticle(articleId);
+			allComments = (ArrayList<Comment>) blogUserDao.getCommentsOfOneArticle(articleId);
 		}
 		
 		// create a new post
@@ -77,6 +89,93 @@ public class AdminAction extends ActionSupport implements SessionAware
 		}
 		
 		return SUCCESS;
+	}
+	
+	public String deleteArticle()
+	{
+		if(Integer.parseInt(oneArticle.getArticleId()) == -1)
+		{
+			return SUCCESS;
+		}
+		else
+		{
+			try
+			{
+				if(blogUserDao == null)
+				{
+					blogUserDao = DaoFactory.getInstance().getBlogUserDao();
+				}
+			}
+			catch(Exception e)
+			{
+				e.printStackTrace();
+			}
+			int articleCode = blogUserDao.deleteArticle(oneArticle.getArticleId());
+			int commentsCode = blogUserDao.deleteAllComments(oneArticle.getArticleId());
+			
+			/*
+			 * return SUCCESS when
+			 * 1. article and comments have been deleted
+			 * 2. article has been deleted and no comment has been found
+			 * 
+			 * */
+			if((articleCode * commentsCode == 1) || ((articleCode * commentsCode == 0) && (commentsCode == 0) ))
+			{
+				return SUCCESS;
+			}
+			else
+				return ERROR;
+		}
+	}
+	public String postArticle()
+	{
+		int code;
+		try
+		{
+			if(blogUserDao == null)
+			{
+				blogUserDao = DaoFactory.getInstance().getBlogUserDao();
+			}
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		if(Integer.parseInt(oneArticle.getArticleId()) == -1)
+		{
+			code = blogUserDao.createArticle(oneArticle);
+		}
+		else
+		{
+			code = blogUserDao.editArticle(oneArticle.getArticleId(), oneArticle);
+		}
+		if(code == 1)
+			return SUCCESS;
+		else
+			return ERROR;
+	}
+	
+	public String deleteComment()
+	{
+		try
+		{
+			if(blogUserDao == null)
+			{
+				blogUserDao = DaoFactory.getInstance().getBlogUserDao();
+			}
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		int code = blogUserDao.deleteOneComment(commentId);
+		if(code == 1)
+		{
+			allComments = (ArrayList<Comment>) blogUserDao.getCommentsOfOneArticle(articleId);
+			return SUCCESS;
+		}
+		else
+			return ERROR;
 	}
 	
 	@Override
@@ -109,5 +208,21 @@ public class AdminAction extends ActionSupport implements SessionAware
 
 	public void setOneArticle(Article oneArticle) {
 		this.oneArticle = oneArticle;
+	}
+
+	public ArrayList<Comment> getAllComments() {
+		return allComments;
+	}
+
+	public void setAllComments(ArrayList<Comment> allComments) {
+		this.allComments = allComments;
+	}
+
+	public String getCommentId() {
+		return commentId;
+	}
+
+	public void setCommentId(String commentId) {
+		this.commentId = commentId;
 	}
 }

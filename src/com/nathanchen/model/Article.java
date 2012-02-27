@@ -1,5 +1,7 @@
 package com.nathanchen.model;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -137,4 +139,24 @@ public class Article
 	{
 		return this.getArticleId();
 	}
+	
+	/**
+	 * @throws ParseException 
+	 * @deprecated
+	 * 
+	 * */
+	public String getDateString() throws ParseException
+	{
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		return sdf.format(this.getDate());
+	}
+	
+//	public static void main (String[] args) throws ParseException
+//	{
+//		Article article = new Article();
+//		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+//		article.setDate(sdf.parse("2009-06-14"));
+//		System.out.println(article.getDate().toString());
+//		System.out.println(article.getDateString());
+//	}
 }

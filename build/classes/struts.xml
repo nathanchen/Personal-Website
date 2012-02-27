@@ -7,7 +7,7 @@
 	<constant name="struts.devMode" value="true" />
 	<constant name="struts.custom.i18n.resources" value="Nathan_website" />
 
-	<package name="basicstruts2" extends="struts-default">
+	<package name="basicstruts2" extends="struts-default, json-default">
 		<action name="index" class="com.nathanchen.controller.GlobalAction"
 			method="index">
 			<result name="success">
@@ -73,6 +73,41 @@
 			method="adminEditBlog">
 			<result name="success">
 				/views/adminEachPost.jsp
+			</result>
+		</action>
+		
+		<action name="deleteArticle" class="com.nathanchen.controller.AdminAction"
+			method="deleteArticle">
+			<result name="success" type="redirectAction">
+				<param name="namespace">/struts</param>
+				<param name="actionName">adminShowAllPostsInfo</param>
+			</result>
+			<result name="error">
+				/views/eachBlog.jsp
+			</result>
+		</action>
+		
+		<action name="postArticle" class="com.nathanchen.controller.AdminAction"
+			method="postArticle">
+			<result name="success" type="redirectAction">
+				<param name="namespace">/struts</param>
+				<param name="actionName">adminShowAllPostsInfo</param>
+			</result>
+			<result name="error">
+				/views/eachBlog.jsp
+			</result>
+			<result name="input">
+				/views/eachBlog.jsp
+			</result>
+		</action>
+		
+		<action name="deleteComment" class="com.nathanchen.controller.AdminAction"
+			method="deleteComment">
+			<result name="success" type="json">
+				<param name="root">allComments</param>
+			</result>
+			<result name="error">
+				/views/eachBlog.jsp
 			</result>
 		</action>
 	</package>

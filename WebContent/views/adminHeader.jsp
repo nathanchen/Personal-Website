@@ -13,7 +13,7 @@
 </head>
 <body>
 	<div id="crudHeader">
-		<h1><s:a href="">Administration</s:a></h1>
+		<h1><s:a href="../struts/adminIndex.action">Administration</s:a></h1>
 	</div>
 </body>
 </html>

@@ -109,7 +109,7 @@ public class GlobalAction extends ActionSupport implements SessionAware {
 		}
 		String bb = blogComment.getArticleId();
 		articleId = bb;
-		blogCommentId = Integer.parseInt(blogUserDao.getNumberOfCommentsOfOneArticle(bb)) + 1 + "";
+		blogCommentId = Integer.parseInt(blogUserDao.getLatestCommentOfOneArticle(bb).getCommentId()) + 1 + "";
 		blogUserDao.createComment(blogComment, bb, blogCommentId);
 		System.out.println(blogComment.getName() + " " + blogComment.getMessage());
 		blogCommentName = blogComment.getName();
