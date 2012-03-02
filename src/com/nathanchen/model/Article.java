@@ -18,6 +18,7 @@ public class Article
 	private int numberOfTags;
 	private Date dateOfLatestComment;
 	
+	private String published;
 	
 	public Article()
 	{
@@ -74,14 +75,15 @@ public class Article
 	public void setAuthor(String author) {
 		this.author = author;
 	}
-	public Date getDate() {
-		return date;
+	public Date getDate() throws ParseException {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		return sdf.parse(sdf.format(date));
 	}
 	public void setDate(Date date) {
 		this.date = date;
 	}
 	public String getArticleBody() {
-		return articleBody;
+		return articleBody.replaceAll("&nbsp;", " ");
 	}
 	public void setArticleBody(String articleBody) {
 		this.articleBody = articleBody;
@@ -149,6 +151,14 @@ public class Article
 	{
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		return sdf.format(this.getDate());
+	}
+
+	public String getPublished() {
+		return published;
+	}
+
+	public void setPublished(String published) {
+		this.published = published;
 	}
 	
 //	public static void main (String[] args) throws ParseException

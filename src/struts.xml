@@ -11,21 +11,21 @@
 		<action name="index" class="com.nathanchen.controller.GlobalAction"
 			method="index">
 			<result name="success">
-				/views/index.jsp
+				/views/member/index.jsp
 			</result>
 		</action>
 		
 		<action name="adminIndex" class="com.nathanchen.controller.AdminAction"
 			method="adminIndex">
 			<result name="success">
-				/views/adminIndex.jsp
+				/views/admin/adminIndex.jsp
 			</result>
 		</action>
 
 		<action name="gotoBlog" class="com.nathanchen.controller.GlobalAction"
 			method="gotoBlog">
 			<result name="success">
-				/views/eachBlog.jsp
+				/views/member/eachBlog.jsp
 			</result>
 		</action>
 
@@ -48,31 +48,31 @@
 		<action name="similarPosts" class="com.nathanchen.controller.GlobalAction"
 			method="similarPosts">
 			<result name="success">
-				/views/listTagged.jsp
+				/views/member/listTagged.jsp
 			</result>
 			<result name="error">
-				/views/eachBlog.jsp
+				/views/member/eachBlog.jsp
 			</result>
 		</action>
 
 		<action name="globalSearch" class="com.nathanchen.controller.GlobalAction"
 			method="globalSearch">
 			<result name="success">
-				/views/globalSearchResults.jsp
+				/views/member/globalSearchResults.jsp
 			</result>
 		</action>
 
 		<action name="adminShowAllPostsInfo" class="com.nathanchen.controller.AdminAction"
 			method="adminShowAllPostsInfo">
 			<result name="success">
-				/views/adminPostsList.jsp
+				/views/admin/adminPostsList.jsp
 			</result>
 		</action>
 
 		<action name="adminEditBlog" class="com.nathanchen.controller.AdminAction"
 			method="adminEditBlog">
 			<result name="success">
-				/views/adminEachPost.jsp
+				/views/admin/adminEachPost.jsp
 			</result>
 		</action>
 		
@@ -83,7 +83,7 @@
 				<param name="actionName">adminShowAllPostsInfo</param>
 			</result>
 			<result name="error">
-				/views/eachBlog.jsp
+				/views/admin/eachBlog.jsp
 			</result>
 		</action>
 		
@@ -94,10 +94,10 @@
 				<param name="actionName">adminShowAllPostsInfo</param>
 			</result>
 			<result name="error">
-				/views/eachBlog.jsp
+				/views/admin/error.jsp
 			</result>
 			<result name="input">
-				/views/eachBlog.jsp
+				/views/admin/error.jsp
 			</result>
 		</action>
 		

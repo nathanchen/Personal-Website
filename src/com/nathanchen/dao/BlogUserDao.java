@@ -77,10 +77,10 @@ public interface BlogUserDao
 	 * @param tags
 	 * @param articleId
 	 * 
-	 * update one article's tags' information
+	 * set one article's tags' information
 	 *  
 	 * */
-	public void updateTags(List<Tag> tags, String articleId);
+	public int setOneArticleTags(List<Tag> tags, String articleId);
 	
 	/**
 	 * @param tag name

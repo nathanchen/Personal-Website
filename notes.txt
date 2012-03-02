@@ -22,5 +22,3 @@
 11. 验证下搜索框中是不是都是空格
 
 12. 添加文章分类选项
-
-13. host on github.com octopress&jekyll

@@ -1,14 +1,13 @@
 <Context path="/Website">
-     <Resource name="jdbc/nathan_test"
-              type="javax.sql.DataSource"
-              username="root"
-              password="081200"
-              driverClassName="com.mysql.jdbc.Driver"
-              maxIdle="2"
-              maxWait="5000"
-              validationQuery="SELECT * FROM Users"
-              url="jdbc:mysql://localhost:3306/nathan_test"
-              maxActive="4" 
-              poolPreparedStatements="true"
-              />
+	<Resource name="jdbc/nathan_test" type="javax.sql.DataSource"
+		username="root" password="081200" driverClassName="com.mysql.jdbc.Driver"
+		maxIdle="2" maxWait="5000" validationQuery="SELECT * FROM Users"
+		url="jdbc:mysql://localhost:3306/nathan_test" maxActive="4"
+		poolPreparedStatements="true" />
+		
+		
+	<Realm className="org.apache.catalina.realm.DataSourceRealm"
+		localDataSource="true" dataSourceName="jdbc/nathan_test" userTable="users"
+		userNameCol="user_name" userCredCol="user_password" userRoleTable="users_role"
+		roleNameCol="role" />
 </Context>

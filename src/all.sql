@@ -4,13 +4,13 @@ create table Nathan_articles(
 	author_name varchar(100) not null,
 	article_body varchar(100000),
 	publish_date date not null,
-	article_title varchar(100) not null
+	article_title varchar(100) not null,
+	published varchar(10) not null
 );
 
 create table Nathan_tag_article(
 	article_id varchar(100) not null,
 	tag_name varchar(100) not null,
-	tag_appears integer not null,
 	primary key (article_id, tag_name)
 );
 
@@ -86,54 +86,45 @@ insert into Nathan_articles values(
 
 insert into Nathan_tag_article values(
 	"1",
-	'Martin',
-	'1'
+	'Martin'
 );
 
 insert into Nathan_tag_article values(
 	"1",
-	'fowler',
-	'1'
+	'fowler'
 );
 
 insert into Nathan_tag_article values(
 	"1",
-	'defines',
-	'1'
+	'defines'
 );
 
 insert into Nathan_tag_article values(
 	"1",
-	'it',
-	'1'
+	'it'
 );
 
 insert into Nathan_tag_article values(
 	"2",
-	'Martin',
-	'2'
+	'Martin'
 );
 
 insert into Nathan_tag_article values(
 	"2",
-	'test',
-	'1'
+	'test'
 );
 
 insert into Nathan_tag_article values(
 	"3",
-	'the',
-	'1'
+	'the'
 );
 
 insert into Nathan_tag_article values(
 	"3",
-	'pplication',
-	'1'
+	'pplication'
 );
 
 insert into Nathan_tag_article values(
 	"3",
-	'follows',
-	'1'
+	'follows'
 );

@@ -9,10 +9,15 @@ import com.nathanchen.dao.BlogUserDao;
 import com.nathanchen.dao.DaoFactory;
 import com.nathanchen.model.Article;
 import com.nathanchen.model.Comment;
+import com.nathanchen.model.Tag;
 import com.opensymphony.xwork2.ActionSupport;
 
 public class AdminAction extends ActionSupport implements SessionAware 
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private BlogUserDao blogUserDao;
 	private String articleId;
 	
@@ -24,12 +29,11 @@ public class AdminAction extends ActionSupport implements SessionAware
 	private Article oneArticle;
 	private ArrayList<Comment> allComments;
 	private String commentId;
+	private String tagString;
 	
 	// deleteArticle
 	
 	// deleteComment
-	
-	
 	
 	public String adminIndex()
 	{
@@ -79,6 +83,14 @@ public class AdminAction extends ActionSupport implements SessionAware
 		if(Integer.parseInt(articleId) != -1)
 		{
 			oneArticle = blogUserDao.getArticle(articleId);
+			if(oneArticle.getTags().size() > 0)
+			{
+				for(Tag tag : oneArticle.getTags())
+				{
+					tagString = tagString + "," + tag.getTagName();
+				}
+				tagString = tagString.substring(1);
+			}
 			allComments = (ArrayList<Comment>) blogUserDao.getCommentsOfOneArticle(articleId);
 		}
 		
@@ -130,6 +142,7 @@ public class AdminAction extends ActionSupport implements SessionAware
 	public String postArticle()
 	{
 		int code;
+		ArrayList<Tag> updatedTags = new ArrayList<Tag>();
 		try
 		{
 			if(blogUserDao == null)
@@ -141,12 +154,24 @@ public class AdminAction extends ActionSupport implements SessionAware
 		{
 			e.printStackTrace();
 		}
+		if(null != tagString && tagString.length() > 0)
+		{
+			String[] array = tagString.split(",");
+			for(String str : array)
+			{
+				updatedTags.add(new Tag(str));
+			}
+		}
 		if(Integer.parseInt(oneArticle.getArticleId()) == -1)
 		{
+			if(null != updatedTags)
+				oneArticle.setTags(updatedTags);
 			code = blogUserDao.createArticle(oneArticle);
 		}
 		else
 		{
+			if(null != updatedTags)
+				oneArticle.setTags(updatedTags);
 			code = blogUserDao.editArticle(oneArticle.getArticleId(), oneArticle);
 		}
 		if(code == 1)
@@ -224,5 +249,13 @@ public class AdminAction extends ActionSupport implements SessionAware
 
 	public void setCommentId(String commentId) {
 		this.commentId = commentId;
+	}
+
+	public String getTagString() {
+		return tagString;
+	}
+
+	public void setTagString(String tagString) {
+		this.tagString = tagString;
 	}
 }

@@ -44,7 +44,7 @@ public class BlogUserDaoImpl implements BlogUserDao
 	
 	String findOrCreateByNameAndArticleId = "select * from nathan_tag_article where tag_name = ? and article_id = ?";
 	
-	String getTagsOfOneArticle = "select * from nathan_tag_article where article_id = ? order by tag_appears desc ";
+	String getTagsOfOneArticle = "select * from nathan_tag_article where article_id = ?";
 	
 	String getArticlesByTag = "select article_id from Nathan_tag_article where tag_name = ?";
 	
@@ -59,6 +59,9 @@ public class BlogUserDaoImpl implements BlogUserDao
 	String newArticle = "insert into Nathan_articles values(?,?,?,?,?)";
 	
 	String deleteOneComment = "delete from Nathan_comments where comment_id = ?";
+	
+	String setOneArticleTags = "insert into Nathan_tag_article values(?,?)";
+	String deleteEntryFromTagTable = "delete from nathan_tag_article where article_id = ?";
 	
 	/***********************************************************************************************************/
 	
@@ -215,18 +218,8 @@ public class BlogUserDaoImpl implements BlogUserDao
 			while(rs.next())
 			{
 				List<Tag> tags = new ArrayList<Tag>();
+				tags = getTagsOfOneArticle(articleId);
 				
-//				String tagInfo = rs.getString("tags");
-//				
-//				// if the article has been assigned any tags
-//				if(tagInfo.trim() != null)
-//				{
-//					String[] arr = tagInfo.split(",");
-//					for(int i = 0; i < arr.length; i ++)
-//					{
-//						tags.add(new Tag(arr[i]));
-//					}
-//				}
 				String numberOfComments = getNumberOfCommentsOfOneArticle(articleId);
 				int num = Integer.parseInt(numberOfComments);
 				if( num < 1)
@@ -295,12 +288,6 @@ public class BlogUserDaoImpl implements BlogUserDao
 			e.printStackTrace();
 		}
 		return null;
-	}
-
-	@Override
-	public void updateTags(List<Tag> tags, String articleId) 
-	{
-		
 	}
 
 	@Override
@@ -589,7 +576,6 @@ public class BlogUserDaoImpl implements BlogUserDao
 			{
 				Tag tag = new Tag();
 				tag.setTagName(rs.getString("tag_name"));
-				tag.setNumber(rs.getInt("tag_appears"));
 				tags.add(tag);
 				i ++;
 			}
@@ -818,7 +804,7 @@ public class BlogUserDaoImpl implements BlogUserDao
 			stmt.setString(3, article.getArticleBody());
 			stmt.setString(4, article.getDateString());
 			stmt.setString(5, article.getTitle());
-			result = stmt.executeUpdate();
+			result = stmt.executeUpdate() * setOneArticleTags(article.getTags(), articleId);
 			conn.commit();
 			stmt.close();
 			conn.close();
@@ -849,7 +835,7 @@ public class BlogUserDaoImpl implements BlogUserDao
 			stmt.setString(3, article.getArticleBody());
 			stmt.setString(4, article.getDateString());
 			stmt.setString(5, article.getTitle());
-			result = stmt.executeUpdate();
+			result = stmt.executeUpdate() * setOneArticleTags(article.getTags(), articleId);
 			conn.commit();
 			conn.setAutoCommit(true);
 			stmt.close();
@@ -906,6 +892,36 @@ public class BlogUserDaoImpl implements BlogUserDao
 		catch(Exception e)
 		{
 			log.error("** deleteOneComment fails");
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	@Override
+	public int setOneArticleTags(List<Tag> tags, String articleId) 
+	{
+		int result = 1;
+		try
+		{
+			Connection conn = ds.getConnection();
+			PreparedStatement stmt = conn.prepareStatement(deleteEntryFromTagTable);
+			stmt.setString(1, articleId);
+			stmt.executeUpdate();
+			stmt = conn.prepareStatement(setOneArticleTags);
+			for(int i = 0; i < tags.size(); i ++)
+			{
+				stmt.setString(1, articleId);
+				stmt.setString(2, tags.get(i).getTagName());
+				result = result * stmt.executeUpdate();
+			}
+			stmt.close();
+			conn.close();
+			log.debug("** setOneArticleTags success");
+			return result;
+		}
+		catch(Exception e)
+		{
+			log.error("** setOneArticleTags fails");
 			e.printStackTrace();
 		}
 		return result;
