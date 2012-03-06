@@ -9,12 +9,30 @@
 	</welcome-file-list>
 
 	<filter>
+		<filter-name>UrlRewriteFilter</filter-name>
+		<filter-class>org.tuckey.web.filters.urlrewrite.UrlRewriteFilter</filter-class>
+		<init-param>
+			<param-name>logLevel</param-name>
+			<param-value>WARN</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>UrlRewriteFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+		
+	</filter-mapping>
+
+
+	<filter>
 		<filter-name>struts2</filter-name>
 		<filter-class>org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter</filter-class>
 	</filter>
 	<filter-mapping>
 		<filter-name>struts2</filter-name>
 		<url-pattern>/struts/*</url-pattern>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>REQUEST</dispatcher>
+		<dispatcher>INCLUDE</dispatcher>
 	</filter-mapping>
 
 	<login-config>
@@ -24,14 +42,14 @@
 			<form-error-page>/loginError.jsp</form-error-page>
 		</form-login-config>
 	</login-config>
-	
+
 	<security-constraint>
 		<web-resource-collection>
-				<web-resource-name>protected</web-resource-name>
-				<url-pattern>/admin/*</url-pattern>
+			<web-resource-name>protected</web-resource-name>
+			<url-pattern>/admin/*</url-pattern>
 		</web-resource-collection>
 		<auth-constraint>
-				<role-name>Admin</role-name>
+			<role-name>Admin</role-name>
 		</auth-constraint>
 	</security-constraint>
 </web-app>

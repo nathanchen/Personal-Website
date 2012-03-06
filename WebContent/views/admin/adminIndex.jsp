@@ -13,6 +13,9 @@
 </head>
 <body>
 	<s:include value="adminHeader.jsp"></s:include>
+		<ul class="breadcrumb">
+		<li class="active"><a href="#">主界面</a> <span class="divider">/</span></li>
+	</ul>
 	<div id="crudContent">
 		<div id="crudIndex">
 			<h2>请选择要编辑的栏目</h2>

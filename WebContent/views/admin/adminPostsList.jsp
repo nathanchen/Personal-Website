@@ -9,7 +9,11 @@
 </head>
 <body id="crud">
 	<s:include value="adminHeader.jsp"></s:include>
-
+	<ul class="breadcrumb">
+		<li><a href="../struts/adminIndex.action">主界面</a> <span
+			class="divider">/</span></li>
+		<li class="active"><a href="#">所有文章</a> <span class="divider">/</span></li>
+	</ul>
 	<div id="crudContent">
 		<div id="crudIndex">
 			<div id="crudList" class="">

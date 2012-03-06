@@ -12,6 +12,18 @@ import com.nathanchen.model.Comment;
 import com.nathanchen.model.Tag;
 import com.opensymphony.xwork2.ActionSupport;
 
+/**
+ * if(no bugs){
+ *	author = @author NATHAN;
+ * }
+ * else{
+ *	author = "God knows"
+ * }
+ *
+ *	natechen@me.com
+ * 	7:49:05 PM
+ *	Mar 6, 2012
+ */
 public class AdminAction extends ActionSupport implements SessionAware 
 {
 	/**
@@ -39,6 +51,7 @@ public class AdminAction extends ActionSupport implements SessionAware
 	{
 		return SUCCESS;
 	}
+	
 	
 	public String adminShowAllPostsInfo()
 	{

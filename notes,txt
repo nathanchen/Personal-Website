@@ -24,3 +24,6 @@
 12. 添加文章分类选项
 
 13. host on github.com octopress&jekyll
+background: -webkit-gradient(linear, left top, left 30%, from(#8ccefa), to(#8ccefa));
+    -webkit-border-radius: 16px;
+    -moz-border-radius: 16px;

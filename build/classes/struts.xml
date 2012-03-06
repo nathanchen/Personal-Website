@@ -13,6 +13,9 @@
 			<result name="success">
 				/views/member/index.jsp
 			</result>
+			<result name="error" type="redirect">
+				/blog/error.html
+			</result>
 		</action>
 		
 		<action name="adminIndex" class="com.nathanchen.controller.AdminAction"
@@ -27,21 +30,21 @@
 			<result name="success">
 				/views/member/eachBlog.jsp
 			</result>
+			<result name="error" type="redirect">
+				/blog/error.html
+			</result>
 		</action>
 
 		<action name="postComment" class="com.nathanchen.controller.GlobalAction"
 			method="postComment">
-			<result name="success" type="redirectAction">
-				<param name="namespace">/struts</param>
-				<param name="actionName">gotoBlog</param>
-				<param name="articleId">${articleId}</param>
-				<param name="isError">${0}</param>
+			<result name="success" type="redirect">
+				/blog/articleId=${articleId}&amp;isError=0.html
 			</result>
-			<result name="input" type="redirectAction">
-				<param name="namespace">/struts</param>
-				<param name="actionName">gotoBlog</param>
-				<param name="articleId">${blogComment.getArticleId()}</param>
-				<param name="isError">${1}</param>
+			<result name="input" type="redirect">
+				/blog/articleId=${blogComment.getArticleId()}&amp;isError=2.html
+			</result>
+			<result name="error" type="redirect">
+				/blog/error.html
 			</result>
 		</action>
 
@@ -50,8 +53,8 @@
 			<result name="success">
 				/views/member/listTagged.jsp
 			</result>
-			<result name="error">
-				/views/member/eachBlog.jsp
+			<result name="error" type="redirect">
+				/blog/error.html
 			</result>
 		</action>
 
@@ -59,6 +62,9 @@
 			method="globalSearch">
 			<result name="success">
 				/views/member/globalSearchResults.jsp
+			</result>
+			<result name="error" type="redirect">
+				/blog/error.html
 			</result>
 		</action>
 

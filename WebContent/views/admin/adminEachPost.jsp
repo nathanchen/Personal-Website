@@ -92,12 +92,14 @@
 </head>
 <body id="crud">
 	<s:include value="adminHeader.jsp"></s:include>
-
+	<ul class="breadcrumb">
+		<li><a href="../struts/adminIndex.action">主界面</a> <span class="divider">/</span></li>
+		<li><a href="../struts/adminShowAllPostsInfo.action">所有文章</a> <span class="divider">/</span></li>
+		<li class="active"><a href="#">文章</a></li>
+	</ul>
 	<div id="crudContent">
 		<div id="crudShow">
-
 			<h2 id="crudShowTitle">编辑文章</h2>
-
 			<div class="objectForm">
 				<s:form action="postArticle" theme="simple" method="post"
 					namespace="/struts">
@@ -127,9 +129,10 @@
 							</tr>
 							<tr>
 								<label>文章标签: </label>
-								<input type="hidden" name="tagString" id="tagString"/>
+								<input type="hidden" name="tagString" id="tagString" />
 								<div class="row">
-									<input type="text" id="jquery-tagbox-text" value="<s:property value="tagString"/>"/>
+									<input type="text" id="jquery-tagbox-text"
+										value="<s:property value="tagString"/>" />
 								</div>
 								<br />
 							</tr>

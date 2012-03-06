@@ -18,10 +18,10 @@
 <body>
 	<div id="header">
 		<div id="logo">
-			<a href="../struts/index.action">Nathan CHEN</a>
+			<a href="../blog/index.html">Nathan CHEN</a>
 		</div>
 		<ul id="tools">
-			<li><a href="../struts/index.action">Blog</a></li>
+			<li><a href="../blog/index.html">Blog</a></li>
 			<li><a href="#">Projects</a></li>
 			<li><a href="#">About Me</a></li>
 			<li>
@@ -30,7 +30,7 @@
 					<form action="globalSearch" method="post" name="search" id="search"
 						namespace="/struts">
 						<input name="keyword" type="text" class="input" id="keyword"
-							value="" style="float: left;"> <label for="keyword"
+							value="" style="float: left;"> <label
 							id="for-keyword" class="label">我要搜索</label> <span class="submit"
 							id="frmsearch">搜索</span>
 					</form>

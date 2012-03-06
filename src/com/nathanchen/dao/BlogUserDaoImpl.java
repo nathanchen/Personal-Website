@@ -36,7 +36,7 @@ public class BlogUserDaoImpl implements BlogUserDao
 	
 	String getNumberOfCommentsOfOneArticle = "select count(*) from Nathan_comments where article_id = ? order by publish_date desc"; 
 	String getAuthorOfLatestCommentOfOneArticle = "select viewer_name from nathan_comments where article_id = ? order by publish_date desc limit 1";
-	String getLatestCommentOfOneArticle = "select * from nathan_comments where article_id = ? order by publish_date desc limit 1";
+	String getLatestCommentOfOneArticle = "select * from nathan_comments where article_id = ? order by comment_id desc limit 1";
 	
 	String getCommentsOfOneArticle = "select * from Nathan_comments where article_id = ? order by publish_date desc";
 	
