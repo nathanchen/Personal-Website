@@ -1,7 +1,5 @@
-package com.nathanchen.model;
+package com.nathan.model;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Comment 
@@ -14,12 +12,6 @@ public class Comment
 	
 	public Comment(){
 		
-	}
-	
-	public Comment(String name, Date date)
-	{
-		this.name = name;
-		this.date = date;
 	}
 	
 	public Comment(String articleId, String name, Date date, String message, String commentId)
@@ -43,9 +35,8 @@ public class Comment
 	public void setName(String name) {
 		this.name = name;
 	}
-	public Date getDate() throws ParseException {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		return sdf.parse(sdf.format(date));
+	public Date getDate() {
+		return date;
 	}
 	public void setDate(Date date) {
 		this.date = date;
