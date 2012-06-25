@@ -23,7 +23,7 @@
 	<div id="main">
 		<div class="post">
 			<h2 class="post-title">
-				<s:url var="gotoBlogUrl" value="/blog/articleId=%{latestArticleOfAll.articleId}&amp;isError=1.html">
+				<s:url var="gotoBlogUrl" value="/blog/articleId=%{latestArticleOfAll.articleId}.html">
 				</s:url>
 				<s:a href="%{gotoBlogUrl}">
 					<s:property value="latestArticleOfAll.title" />

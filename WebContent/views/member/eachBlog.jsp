@@ -29,7 +29,7 @@
 			</h2>
 
 			<div class="post-metadata">
-				<span class="post-author">by <s:property
+				<span class="post-author">来自 <s:property
 						value="eachBlog.author" /></span> <span class="post-date"><s:property
 						value="eachBlog.date" /></span> <span class="post-comments">
 					&nbsp;|&nbsp; <s:property value="eachBlog.numberOfComments" /> 条评论
@@ -48,7 +48,7 @@
 				<s:iterator value="eachBlogComment">
 					<div class="comment">
 						<div class="comment-metadata">
-							<span class="comment-author">by <s:property value="name" />
+							<span class="comment-author">来自 <s:property value="name" />
 								,
 							</span> <span class="comment-date"> <s:property value="date" />
 							</span>
@@ -70,23 +70,22 @@
 		<h3>给作者留言</h3>
 
 		<s:form action="postComment" validate="true" theme="simple"
-			method="post" namespace="/struts">
-			<s:actionerror />
-			<s:if test="isError eq 2">
-				<p class="error">All fields are required!</p>
-			</s:if>
+			method="post" namespace="/struts" id="postCommentForm">
+			<div id="errorMessage">
+			</div>
 			<input type="hidden" name="blogComment.articleId"
 				value="<s:property
 						value="eachBlog.articleId" />" />
 			<br />
 			<label>您的名字: </label>
-			<s:textfield name="blogComment.name"></s:textfield>
+			<s:textfield name="blogComment.name" id="blogComment.name"></s:textfield>
 			<label>您的留言: </label>
-			<s:textarea name="blogComment.message"></s:textarea>
+			<s:textarea name="blogComment.message" id="blogComment.message"></s:textarea>
 			<p>
-				<s:submit value="提交您的评论"></s:submit>
-				<s:reset value="重置"></s:reset>
+				<button type="button" class="btn-success" onClick="checkOnSubmit('blogComment.name', 'blogComment.message', 'errorMessage', 'postCommentForm');">提交评论</button>
+				<button type="reset">重置</button>
 			</p>
+			<br />
 		</s:form>
 	</div>
 	<s:include value="footer.jsp"></s:include>

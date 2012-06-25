@@ -282,9 +282,9 @@ form {
 }
 
 form .error {
-    background: #c00;
+    background: #900;
     color: #fff;
-    font-size: 90%;
+    font-size: 85%;
     padding: 3px 5px;
     -webkit-border-radius: 6px;
     -moz-border-radius: 6px;
@@ -310,7 +310,8 @@ form label {
     font-weight: bold;
     font-size: 80%;
     color: #aaa;
-    margin-bottom: 3px;
+    margin-bottom: 5px;
+    margin-top: 8px;
 }
 
 #captcha{
