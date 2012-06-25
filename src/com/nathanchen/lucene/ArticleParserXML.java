@@ -30,7 +30,7 @@ import org.w3c.dom.NodeList;
  * 	10:42:29 PM
  *	Feb 17, 2012
  */
-public class ArticleParser 
+public class ArticleParserXML 
 {
 	private String articlePath;
 	
@@ -38,7 +38,7 @@ public class ArticleParser
 	
 	private NodeList nl;
 	
-	public ArticleParser(String articleParser)
+	public ArticleParserXML(String articleParser)
 	{
 		this.articlePath = articleParser;
 		initDom();

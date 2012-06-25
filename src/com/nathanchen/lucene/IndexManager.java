@@ -66,7 +66,7 @@ public class IndexManager
 	
 	public void addDocument(String articlePath, IndexWriter indexWriter)
 	{
-		ArticleParser articleParser = new ArticleParser(articlePath);
+		ArticleParserXML articleParser = new ArticleParserXML(articlePath);
 		String title = articleParser.getElement("Title");
 		String tags = articleParser.getElement("Tag"); 
 		String content = articleParser.getElement("ArticleBody");
