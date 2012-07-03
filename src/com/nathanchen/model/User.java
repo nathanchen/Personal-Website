@@ -1,4 +1,4 @@
-package com.nathan.model;
+package com.nathanchen.model;
 
 public class User 
 {

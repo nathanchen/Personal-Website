@@ -40,9 +40,6 @@
 			<result name="success" type="redirect">
 				/blog/articleId=${articleId}&amp;isError=0.html
 			</result>
-			<result name="input" type="redirect">
-				/blog/articleId=${blogComment.getArticleId()}&amp;isError=2.html
-			</result>
 			<result name="error" type="redirect">
 				/blog/error.html
 			</result>
