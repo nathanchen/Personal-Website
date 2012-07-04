@@ -13,6 +13,7 @@ import javax.sql.DataSource;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
 
 import com.nathanchen.model.Article;
 import com.nathanchen.model.Comment;
@@ -21,7 +22,7 @@ import com.nathanchen.model.Tag;
 public class UserDaoBlogImpl implements UserDaoBlog
 {
 	private DataSource ds;
-	Log log = LogFactory.getLog(UserDaoBlogImpl.class);
+	Logger logger = Logger.getLogger(UserDaoBlogImpl.class);
 	
 	
 	/******* SQL statements go here *************************************************************************/
@@ -100,13 +101,13 @@ public class UserDaoBlogImpl implements UserDaoBlog
 			stmt.setString(5, commentId);
 			
 			stmt.executeUpdate();
-			log.debug("** createComment success");
+			logger.debug("** createComment success");
 			stmt.close();
 			conn.close();
 		}
 		catch(Exception e)
 		{
-			log.error("** createComment fails");
+			logger.error("** createComment fails");
 			e.printStackTrace();
 		}
 	}
@@ -131,14 +132,14 @@ public class UserDaoBlogImpl implements UserDaoBlog
 				Comment comment = new Comment(articleId, name, date, message, commentId);
 				comments.add(comment);
 			}
-			log.debug("** getCommentsOfOneArticle success");
+			logger.debug("** getCommentsOfOneArticle success");
 			stmt.close();
 			conn.close();
 			return comments;
 		}
 		catch(Exception e)
 		{
-			log.error("** getCommentsOfOneArticle fails");
+			logger.error("** getCommentsOfOneArticle fails");
 			e.printStackTrace();
 		}
 		return null;
@@ -192,14 +193,14 @@ public class UserDaoBlogImpl implements UserDaoBlog
 				// if the article has been assigned any tags
 				articles.add(article);
 			}
-			log.debug("** getOneAuthorArticles success");
+			logger.debug("** getOneAuthorArticles success");
 			stmt.close();
 			conn.close();
 			return articles;
 		}
 		catch(Exception e)
 		{
-			log.error("** getOneAuthorArticles fails");
+			logger.error("** getOneAuthorArticles fails");
 			e.printStackTrace();
 		}
 		return null;
@@ -240,12 +241,12 @@ public class UserDaoBlogImpl implements UserDaoBlog
 			rs.close();
 			stmt.close();
 			conn.close();
-			log.debug("** getArticle success");
+			logger.debug("** getArticle success");
 			return result;
 		}
 		catch(Exception e)
 		{
-			log.error("** getArticle success");
+			logger.error("** getArticle success");
 			e.printStackTrace();
 		}
 		return null;
@@ -279,12 +280,12 @@ public class UserDaoBlogImpl implements UserDaoBlog
 			rs.close();
 			stmt.close();
 			conn.close();
-			log.debug("** getNumberOfCommentsOfOneArticle success");
+			logger.debug("** getNumberOfCommentsOfOneArticle success");
 			return result;
 		}
 		catch(Exception e)
 		{
-			log.error("** getNumberOfCommentsOfOneArticle fails");
+			logger.error("** getNumberOfCommentsOfOneArticle fails");
 			e.printStackTrace();
 		}
 		return null;
@@ -335,14 +336,14 @@ public class UserDaoBlogImpl implements UserDaoBlog
 							num, authorOfLatestComment, tags.size());
 				}
 			}
-			log.debug("** getOneAuthorLatestArticle success");
+			logger.debug("** getOneAuthorLatestArticle success");
 			stmt.close();
 			conn.close();
 			return article;
 		}
 		catch(Exception e)
 		{
-			log.error("** getOneAuthorLatestArticle fails");
+			logger.error("** getOneAuthorLatestArticle fails");
 			e.printStackTrace();
 		}
 		return null;
@@ -388,14 +389,14 @@ public class UserDaoBlogImpl implements UserDaoBlog
 				}
 				articles.add(article);
 			}
-			log.debug("** getOneAuthorTop10LatestArticles success");
+			logger.debug("** getOneAuthorTop10LatestArticles success");
 			stmt.close();
 			conn.close();
 			return articles;
 		}
 		catch(Exception e)
 		{
-			log.error("** getOneAuthorTop10LatestArticles fails");
+			logger.error("** getOneAuthorTop10LatestArticles fails");
 			e.printStackTrace();
 		}
 		return null;
@@ -439,12 +440,12 @@ public class UserDaoBlogImpl implements UserDaoBlog
 			rs.close();
 			stmt.close();
 			conn.close();
-			log.debug("** getLatestArticlesOfAll success");
+			logger.debug("** getLatestArticlesOfAll success");
 			return result;
 		}
 		catch(Exception e)
 		{
-			log.error("** getLatestArticlesOfAll fails");
+			logger.error("** getLatestArticlesOfAll fails");
 			e.printStackTrace();
 		}
 		return null;
@@ -485,14 +486,14 @@ public class UserDaoBlogImpl implements UserDaoBlog
 				}
 				articles.add(article);
 			}
-			log.debug("** getTop10LatestArticlesOfAll success");
+			logger.debug("** getTop10LatestArticlesOfAll success");
 			stmt.close();
 			conn.close();
 			return articles;
 		}
 		catch(Exception e)
 		{
-			log.error("** getTop10LatestArticlesOfAll fails");
+			logger.error("** getTop10LatestArticlesOfAll fails");
 			e.printStackTrace();
 		}		
 		return null;
@@ -513,14 +514,14 @@ public class UserDaoBlogImpl implements UserDaoBlog
 			{
 				result = rs.getString("viewer_name");
 			}
-			log.debug("** getAuthorOfLatestCommentOfOneArticle success");
+			logger.debug("** getAuthorOfLatestCommentOfOneArticle success");
 			stmt.close();
 			conn.close();
 			return result;
 		}
 		catch(Exception e)
 		{
-			log.error("** getAuthorOfLatestCommentOfOneArticle fails");
+			logger.error("** getAuthorOfLatestCommentOfOneArticle fails");
 			e.printStackTrace();
 		}
 		return null;
@@ -550,14 +551,14 @@ public class UserDaoBlogImpl implements UserDaoBlog
 				number = 1;
 			}
 			tag = new Tag(name, number);
-			log.debug("** findOrCreateByNameAndArticleId success");
+			logger.debug("** findOrCreateByNameAndArticleId success");
 			stmt.close();
 			conn.close();
 			return tag;
 		}
 		catch(Exception e)
 		{
-			log.error("** findOrCreateByNameAndArticleId fails");
+			logger.error("** findOrCreateByNameAndArticleId fails");
 			return null;
 		}
 	}
@@ -584,12 +585,12 @@ public class UserDaoBlogImpl implements UserDaoBlog
 			rs.close();
 			stmt.close();
 			conn.close();
-			log.debug("** getTagsOfOneArticle success");
+			logger.debug("** getTagsOfOneArticle success");
 			return tags;
 		}
 		catch(Exception e)
 		{
-			log.error("** getTagsOfOneArticle fails");
+			logger.error("** getTagsOfOneArticle fails");
 			e.printStackTrace();
 		}
 		return null;
@@ -619,12 +620,12 @@ public class UserDaoBlogImpl implements UserDaoBlog
 			rs.close();
 			stmt.close();
 			conn.close();
-			log.debug("** getArticlesByTag success");
+			logger.debug("** getArticlesByTag success");
 			return result;
 		}
 		catch(Exception e)
 		{
-			log.error("** getArticlesByTag fails");
+			logger.error("** getArticlesByTag fails");
 			e.printStackTrace();
 		}
 		return null;	
@@ -671,12 +672,12 @@ public class UserDaoBlogImpl implements UserDaoBlog
 			rs.close();
 			stmt.close();
 			conn.close();
-			log.debug("** getAllArticles success");
+			logger.debug("** getAllArticles success");
 			return articles;
 		}
 		catch(Exception e)
 		{
-			log.error("** getAllArticles fails");
+			logger.error("** getAllArticles fails");
 			e.printStackTrace();
 		}
 		return null;
@@ -700,12 +701,12 @@ public class UserDaoBlogImpl implements UserDaoBlog
 			rs.close();
 			stmt.close();
 			conn.close();
-			log.debug("** getLatestArticleId success");
+			logger.debug("** getLatestArticleId success");
 			return articleId;
 		}
 		catch(Exception e)
 		{
-			log.error("** getLatestArticleId fails");
+			logger.error("** getLatestArticleId fails");
 			e.printStackTrace();
 		}
 		return null;
@@ -730,12 +731,12 @@ public class UserDaoBlogImpl implements UserDaoBlog
 			rs.close();
 			stmt.close();
 			conn.close();
-			log.debug("** getDateOfComment success");
+			logger.debug("** getDateOfComment success");
 			return publishDate;
 		}
 		catch(Exception e)
 		{
-			log.error("** getDateOfComment fails");
+			logger.error("** getDateOfComment fails");
 			e.printStackTrace();
 		}
 		return null;
@@ -760,12 +761,12 @@ public class UserDaoBlogImpl implements UserDaoBlog
 			rs.close();
 			stmt.close();
 			conn.close();
-			log.debug("** getLatestCommentOfOneArticle success");
+			logger.debug("** getLatestCommentOfOneArticle success");
 			return comment;
 		}
 		catch(Exception e)
 		{
-			log.error("** getLatestCommentOfOneArticle fails");
+			logger.error("** getLatestCommentOfOneArticle fails");
 			e.printStackTrace();
 		}
 		return null;
@@ -783,12 +784,12 @@ public class UserDaoBlogImpl implements UserDaoBlog
 			result = stmt.executeUpdate();
 			stmt.close();
 			conn.close();
-			log.debug("** deleteArticle success");
+			logger.debug("** deleteArticle success");
 			return result;
 		}
 		catch(Exception e)
 		{
-			log.error("** deleteArticle fails");
+			logger.error("** deleteArticle fails");
 			e.printStackTrace();
 		}
 		return result;
@@ -814,12 +815,12 @@ public class UserDaoBlogImpl implements UserDaoBlog
 			stmt.close();
 			conn.close();
 			conn.setAutoCommit(true);
-			log.debug("** createArticle success");
+			logger.debug("** createArticle success");
 			return result;
 		}
 		catch(Exception e)
 		{
-			log.error("** createArticle fails");
+			logger.error("** createArticle fails");
 			e.printStackTrace();
 		}
 		return result;
@@ -845,12 +846,12 @@ public class UserDaoBlogImpl implements UserDaoBlog
 			conn.setAutoCommit(true);
 			stmt.close();
 			conn.close();
-			log.debug("** editArticle success");
+			logger.debug("** editArticle success");
 			return result;
 		}
 		catch(Exception e)
 		{
-			log.error("** editArticle fails");
+			logger.error("** editArticle fails");
 			e.printStackTrace();
 		}
 		return result;
@@ -868,12 +869,12 @@ public class UserDaoBlogImpl implements UserDaoBlog
 			result = stmt.executeUpdate();
 			stmt.close();
 			conn.close();
-			log.debug("** deleteAllComments success");
+			logger.debug("** deleteAllComments success");
 			return result;
 		}
 		catch(Exception e)
 		{
-			log.error("** deleteAllComments fails");
+			logger.error("** deleteAllComments fails");
 			e.printStackTrace();
 		}
 		return result;
@@ -891,12 +892,12 @@ public class UserDaoBlogImpl implements UserDaoBlog
 			result = stmt.executeUpdate();
 			stmt.close();
 			conn.close();
-			log.debug("** deleteOneComment success");
+			logger.debug("** deleteOneComment success");
 			return result;
 		}
 		catch(Exception e)
 		{
-			log.error("** deleteOneComment fails");
+			logger.error("** deleteOneComment fails");
 			e.printStackTrace();
 		}
 		return result;
@@ -921,12 +922,12 @@ public class UserDaoBlogImpl implements UserDaoBlog
 			}
 			stmt.close();
 			conn.close();
-			log.debug("** setOneArticleTags success");
+			logger.debug("** setOneArticleTags success");
 			return result;
 		}
 		catch(Exception e)
 		{
-			log.error("** setOneArticleTags fails");
+			logger.error("** setOneArticleTags fails");
 			e.printStackTrace();
 		}
 		return result;

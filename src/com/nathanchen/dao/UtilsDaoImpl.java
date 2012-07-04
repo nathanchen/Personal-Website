@@ -63,5 +63,4 @@ public class UtilsDaoImpl implements UtilsDao
 		}
 		return numberOfBlogs;
 	}
-	
 }
