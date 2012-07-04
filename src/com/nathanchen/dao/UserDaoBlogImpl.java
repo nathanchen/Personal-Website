@@ -18,54 +18,54 @@ import com.nathanchen.model.Article;
 import com.nathanchen.model.Comment;
 import com.nathanchen.model.Tag;
 
-public class BlogUserDaoImpl implements BlogUserDao
+public class UserDaoBlogImpl implements UserDaoBlog
 {
 	private DataSource ds;
-	Log log = LogFactory.getLog(BlogUserDaoImpl.class);
+	Log log = LogFactory.getLog(UserDaoBlogImpl.class);
 	
 	
-	/******* SQL statements go to here *************************************************************************/
-	String getAllArticles = "select * from Nathan_articles order by publish_date desc";
-	String getLatestArticlesOfAll = getAllArticles + " limit 1";
-	String getTop10LatestArticlesOfAll = getAllArticles + " limit 1, 10";
+	/******* SQL statements go here *************************************************************************/
+	StringBuffer getAllArticles = new StringBuffer("select * from Nathan_articles order by publish_date desc");
+	StringBuffer getLatestArticlesOfAll = getAllArticles.append(" limit 1");
+	StringBuffer getTop10LatestArticlesOfAll = new StringBuffer("select * from Nathan_articles order by publish_date desc limit 1, 10");
 	
-	String getArticle = "select * from Nathan_articles where article_id = ?";
-	String getOneAuthorArticles = "select * from Nathan_articles where author_name = ? order by publish_date desc";
-	String getOneAuthorLatestArticle = getOneAuthorArticles + " limit 1";
-	String getOneAuthorTop10LatestArticles = getOneAuthorArticles + " limit 10";
+	StringBuffer getArticle = new StringBuffer("select * from Nathan_articles where article_id = ?");
+	StringBuffer getOneAuthorArticles = new StringBuffer("select * from Nathan_articles where author_name = ? order by publish_date desc");
+	StringBuffer getOneAuthorLatestArticle = getOneAuthorArticles.append(" limit 1");
+	StringBuffer getOneAuthorTop10LatestArticles = new StringBuffer("select * from Nathan_articles where author_name = ? order by publish_date desc limit 10");
 	
-	String getNumberOfCommentsOfOneArticle = "select count(*) from Nathan_comments where article_id = ? order by publish_date desc"; 
-	String getAuthorOfLatestCommentOfOneArticle = "select viewer_name from nathan_comments where article_id = ? order by publish_date desc limit 1";
-	String getLatestCommentOfOneArticle = "select * from nathan_comments where article_id = ? order by comment_id desc limit 1";
+	StringBuffer getNumberOfCommentsOfOneArticle = new StringBuffer("select count(*) from Nathan_comments where article_id = ? order by publish_date desc"); 
+	StringBuffer getAuthorOfLatestCommentOfOneArticle = new StringBuffer("select viewer_name from nathan_comments where article_id = ? order by publish_date desc limit 1");
+	StringBuffer getLatestCommentOfOneArticle = new StringBuffer("select * from nathan_comments where article_id = ? order by comment_id desc limit 1");
 	
-	String getCommentsOfOneArticle = "select * from Nathan_comments where article_id = ? order by publish_date desc";
+	StringBuffer getCommentsOfOneArticle = new StringBuffer("select * from Nathan_comments where article_id = ? order by publish_date desc");
 	
-	String createComment = "insert into Nathan_comments values (?, ?, ?, ?, ?)";
+	StringBuffer createComment = new StringBuffer("insert into Nathan_comments values (?, ?, ?, ?, ?)");
 	
-	String findOrCreateByNameAndArticleId = "select * from nathan_tag_article where tag_name = ? and article_id = ?";
+	StringBuffer findOrCreateByNameAndArticleId = new StringBuffer("select * from nathan_tag_article where tag_name = ? and article_id = ?");
 	
-	String getTagsOfOneArticle = "select * from nathan_tag_article where article_id = ?";
+	StringBuffer getTagsOfOneArticle = new StringBuffer("select * from nathan_tag_article where article_id = ?");
 	
-	String getArticlesByTag = "select article_id from Nathan_tag_article where tag_name = ?";
+	StringBuffer getArticlesByTag = new StringBuffer("select article_id from Nathan_tag_article where tag_name = ?");
 	
-	String getLatestArticleId = getLatestArticlesOfAll;
+	StringBuffer getLatestArticleId = getLatestArticlesOfAll;
 	
-	String getDateOfComment = "select publish_date from Nathan_comments where article_id = ? and comment_id = ?";
+	StringBuffer getDateOfComment = new StringBuffer("select publish_date from Nathan_comments where article_id = ? and comment_id = ?");
 	
-	String deleteArticle = "delete from Nathan_articles	where article_id = ?";
+	StringBuffer deleteArticle = new StringBuffer("delete from Nathan_articles	where article_id = ?");
 	
-	String deleteAllComments = "delete from Nathan_comments where article_id = ?";
+	StringBuffer deleteAllComments = new StringBuffer("delete from Nathan_comments where article_id = ?");
 	
-	String newArticle = "insert into Nathan_articles values(?,?,?,?,?)";
+	StringBuffer newArticle = new StringBuffer("insert into Nathan_articles values(?,?,?,?,?)");
 	
-	String deleteOneComment = "delete from Nathan_comments where comment_id = ?";
+	StringBuffer deleteOneComment = new StringBuffer("delete from Nathan_comments where comment_id = ?");
 	
-	String setOneArticleTags = "insert into Nathan_tag_article values(?,?)";
-	String deleteEntryFromTagTable = "delete from nathan_tag_article where article_id = ?";
+	StringBuffer setOneArticleTags = new StringBuffer("insert into Nathan_tag_article values(?,?)");
+	StringBuffer deleteEntryFromTagTable = new StringBuffer("delete from nathan_tag_article where article_id = ?");
 	
 	/***********************************************************************************************************/
 	
-	public BlogUserDaoImpl()
+	public UserDaoBlogImpl()
 	{
 		try
 		{
@@ -91,7 +91,7 @@ public class BlogUserDaoImpl implements BlogUserDao
 		try
 		{
 			Connection conn = ds.getConnection();
-			PreparedStatement stmt = conn.prepareStatement(createComment);
+			PreparedStatement stmt = conn.prepareStatement(createComment.toString());
 			Date date = new Date();
 			stmt.setString(1, articleId);
 			stmt.setString(2, comment.getName());
@@ -117,7 +117,7 @@ public class BlogUserDaoImpl implements BlogUserDao
 		try
 		{
 			Connection conn = ds.getConnection();
-			PreparedStatement stmt = conn.prepareStatement(getCommentsOfOneArticle);
+			PreparedStatement stmt = conn.prepareStatement(getCommentsOfOneArticle.toString());
 			
 			stmt.setString(1, articleId);
 			ResultSet rs = stmt.executeQuery();
@@ -157,7 +157,7 @@ public class BlogUserDaoImpl implements BlogUserDao
 		try
 		{
 			Connection conn = ds.getConnection();
-			PreparedStatement stmt = conn.prepareStatement(getOneAuthorArticles);
+			PreparedStatement stmt = conn.prepareStatement(getOneAuthorArticles.toString());
 			
 			// For testing
 			stmt.setString(1, "nathan");
@@ -212,7 +212,7 @@ public class BlogUserDaoImpl implements BlogUserDao
 		try
 		{
 			Connection conn = ds.getConnection();
-			PreparedStatement stmt = conn.prepareStatement(getArticle);
+			PreparedStatement stmt = conn.prepareStatement(getArticle.toString());
 			stmt.setString(1, articleId);
 			ResultSet rs = stmt.executeQuery();
 			while(rs.next())
@@ -258,7 +258,7 @@ public class BlogUserDaoImpl implements BlogUserDao
 		try
 		{
 			Connection conn = ds.getConnection();
-			PreparedStatement stmt = conn.prepareStatement(getNumberOfCommentsOfOneArticle);
+			PreparedStatement stmt = conn.prepareStatement(getNumberOfCommentsOfOneArticle.toString());
 			
 			stmt.setString(1, articleId);
 			
@@ -302,7 +302,7 @@ public class BlogUserDaoImpl implements BlogUserDao
 		try
 		{
 			Connection conn = ds.getConnection();
-			PreparedStatement stmt = conn.prepareStatement(getOneAuthorLatestArticle);
+			PreparedStatement stmt = conn.prepareStatement(getOneAuthorLatestArticle.toString());
 			
 			// For testing
 			stmt.setString(1, "nathan");
@@ -354,7 +354,7 @@ public class BlogUserDaoImpl implements BlogUserDao
 		try
 		{
 			Connection conn = ds.getConnection();
-			PreparedStatement stmt = conn.prepareStatement(getOneAuthorTop10LatestArticles);
+			PreparedStatement stmt = conn.prepareStatement(getOneAuthorTop10LatestArticles.toString());
 			
 			// For testing
 			stmt.setString(1, "nathan");
@@ -409,8 +409,9 @@ public class BlogUserDaoImpl implements BlogUserDao
 		{
 			
 			Connection conn = ds.getConnection();
-			PreparedStatement stmt = conn.prepareStatement(getLatestArticlesOfAll);
+			PreparedStatement stmt = conn.prepareStatement(getLatestArticlesOfAll.toString());
 			
+			System.out.println("getLatestArticlesOfAll.toString() " + getLatestArticlesOfAll.toString()); 
 			ResultSet rs = stmt.executeQuery();
 			while(rs.next())
 			{
@@ -456,8 +457,9 @@ public class BlogUserDaoImpl implements BlogUserDao
 		try
 		{
 			Connection conn = ds.getConnection();
-			PreparedStatement stmt = conn.prepareStatement(getTop10LatestArticlesOfAll);
+			PreparedStatement stmt = conn.prepareStatement(getTop10LatestArticlesOfAll.toString());
 			
+			System.out.println("getTop10LatestArticlesOfAll.toString() " + getTop10LatestArticlesOfAll.toString());
 			ResultSet rs = stmt.executeQuery();
 			while(rs.next())
 			{
@@ -503,7 +505,7 @@ public class BlogUserDaoImpl implements BlogUserDao
 		try
 		{
 			Connection conn = ds.getConnection();
-			PreparedStatement stmt = conn.prepareStatement(getAuthorOfLatestCommentOfOneArticle);
+			PreparedStatement stmt = conn.prepareStatement(getAuthorOfLatestCommentOfOneArticle.toString());
 			
 			stmt.setString(1, articleId);
 			ResultSet rs = stmt.executeQuery();
@@ -531,7 +533,7 @@ public class BlogUserDaoImpl implements BlogUserDao
 		try
 		{
 			Connection conn = ds.getConnection();
-			PreparedStatement stmt = conn.prepareStatement(getOneAuthorArticles);
+			PreparedStatement stmt = conn.prepareStatement(getOneAuthorArticles.toString());
 			
 			// For testing
 			stmt.setString(1, name);
@@ -567,7 +569,7 @@ public class BlogUserDaoImpl implements BlogUserDao
 		try
 		{
 			Connection conn = ds.getConnection();
-			PreparedStatement stmt = conn.prepareStatement(getTagsOfOneArticle);
+			PreparedStatement stmt = conn.prepareStatement(getTagsOfOneArticle.toString());
 			
 			stmt.setString(1, articleId);
 			ResultSet rs = stmt.executeQuery();
@@ -599,7 +601,7 @@ public class BlogUserDaoImpl implements BlogUserDao
 		try
 		{
 			Connection conn = ds.getConnection();
-			PreparedStatement stmt = conn.prepareStatement(getArticlesByTag);
+			PreparedStatement stmt = conn.prepareStatement(getArticlesByTag.toString());
 			
 			stmt.setString(1, tagName);
 			ResultSet rs = stmt.executeQuery();
@@ -628,6 +630,11 @@ public class BlogUserDaoImpl implements BlogUserDao
 		return null;	
 	}
 
+	
+	/**
+	 * select * from Nathan_articles order by publish_date desc
+	 * 
+	 * */
 	@Override
 	public List<Article> getAllArticles() 
 	{
@@ -635,7 +642,7 @@ public class BlogUserDaoImpl implements BlogUserDao
 		try
 		{
 			Connection conn = ds.getConnection();
-			PreparedStatement stmt = conn.prepareStatement(getAllArticles);
+			PreparedStatement stmt = conn.prepareStatement(getAllArticles.toString());
 			
 			ResultSet rs = stmt.executeQuery();
 			while(rs.next())
@@ -657,9 +664,7 @@ public class BlogUserDaoImpl implements BlogUserDao
 				{
 					Comment comment = getLatestCommentOfOneArticle(articleId);
 					String authorOfLatestComment = comment.getName();
-					Date publishDate = comment.getDate();
 					article.setAuthorOfLatestComment(authorOfLatestComment);
-					article.setDateOfLatestComment(publishDate);
 				}
 				articles.add(article);
 			}
@@ -685,7 +690,7 @@ public class BlogUserDaoImpl implements BlogUserDao
 		{
 			
 			Connection conn = ds.getConnection();
-			PreparedStatement stmt = conn.prepareStatement(getLatestArticleId);
+			PreparedStatement stmt = conn.prepareStatement(getLatestArticleId.toString());
 			
 			ResultSet rs = stmt.executeQuery();
 			while(rs.next())
@@ -713,7 +718,7 @@ public class BlogUserDaoImpl implements BlogUserDao
 		try
 		{
 			Connection conn = ds.getConnection();
-			PreparedStatement stmt = conn.prepareStatement(getDateOfComment);
+			PreparedStatement stmt = conn.prepareStatement(getDateOfComment.toString());
 			stmt.setString(1, articleId);
 			stmt.setString(2, commentId);
 			
@@ -743,7 +748,7 @@ public class BlogUserDaoImpl implements BlogUserDao
 		try
 		{
 			Connection conn = ds.getConnection();
-			PreparedStatement stmt = conn.prepareStatement(getLatestCommentOfOneArticle);
+			PreparedStatement stmt = conn.prepareStatement(getLatestCommentOfOneArticle.toString());
 			stmt.setString(1, articleId);
 			ResultSet rs = stmt.executeQuery();
 			while(rs.next())
@@ -773,7 +778,7 @@ public class BlogUserDaoImpl implements BlogUserDao
 		try
 		{
 			Connection conn = ds.getConnection();
-			PreparedStatement stmt = conn.prepareStatement(deleteArticle);
+			PreparedStatement stmt = conn.prepareStatement(deleteArticle.toString());
 			stmt.setString(1, articleId);
 			result = stmt.executeUpdate();
 			stmt.close();
@@ -797,7 +802,7 @@ public class BlogUserDaoImpl implements BlogUserDao
 		{
 			Connection conn = ds.getConnection();
 			conn.setAutoCommit(false);
-			PreparedStatement stmt = conn.prepareStatement(newArticle);
+			PreparedStatement stmt = conn.prepareStatement(newArticle.toString());
 			String articleId = Integer.parseInt(getLatestArticleId()) + 1 + "";
 			stmt.setString(1, articleId);
 			stmt.setString(2, article.getAuthor());
@@ -829,7 +834,7 @@ public class BlogUserDaoImpl implements BlogUserDao
 			Connection conn = ds.getConnection();
 			deleteArticle(articleId);
 			conn.setAutoCommit(false);
-			PreparedStatement stmt = conn.prepareStatement(newArticle);
+			PreparedStatement stmt = conn.prepareStatement(newArticle.toString());
 			stmt.setString(1, articleId);
 			stmt.setString(2, article.getAuthor());
 			stmt.setString(3, article.getArticleBody());
@@ -858,7 +863,7 @@ public class BlogUserDaoImpl implements BlogUserDao
 		try
 		{
 			Connection conn = ds.getConnection();
-			PreparedStatement stmt = conn.prepareStatement(deleteAllComments);
+			PreparedStatement stmt = conn.prepareStatement(deleteAllComments.toString());
 			stmt.setString(1, articleId);
 			result = stmt.executeUpdate();
 			stmt.close();
@@ -881,7 +886,7 @@ public class BlogUserDaoImpl implements BlogUserDao
 		try
 		{
 			Connection conn = ds.getConnection();
-			PreparedStatement stmt = conn.prepareStatement(deleteOneComment);
+			PreparedStatement stmt = conn.prepareStatement(deleteOneComment.toString());
 			stmt.setString(1, commentId);
 			result = stmt.executeUpdate();
 			stmt.close();
@@ -904,10 +909,10 @@ public class BlogUserDaoImpl implements BlogUserDao
 		try
 		{
 			Connection conn = ds.getConnection();
-			PreparedStatement stmt = conn.prepareStatement(deleteEntryFromTagTable);
+			PreparedStatement stmt = conn.prepareStatement(deleteEntryFromTagTable.toString());
 			stmt.setString(1, articleId);
 			stmt.executeUpdate();
-			stmt = conn.prepareStatement(setOneArticleTags);
+			stmt = conn.prepareStatement(setOneArticleTags.toString());
 			for(int i = 0; i < tags.size(); i ++)
 			{
 				stmt.setString(1, articleId);

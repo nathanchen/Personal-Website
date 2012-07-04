@@ -1,6 +1,6 @@
 package com.nathanchen.model;
 
-public class GlobalSearchResult 
+public class BlogSearchResult 
 {
 	String path;
 	String title;

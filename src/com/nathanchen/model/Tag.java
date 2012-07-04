@@ -3,7 +3,7 @@ package com.nathanchen.model;
 public class Tag implements Comparable<Tag> 
 {
 	private String tagName;
-	private int number;
+	private int number; // 统计作用
 	
 	public Tag()
 	{

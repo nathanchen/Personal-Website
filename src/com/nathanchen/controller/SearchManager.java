@@ -20,26 +20,26 @@ import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.Version;
 
-import com.nathanchen.model.GlobalSearchResult;
+import com.nathanchen.model.BlogSearchResult;
 
-public class GlobalSearchManager 
+public class SearchManager 
 {
 	private String searchWord;
 	
-	private IndexManager indexManager;
+	private IndexManagerXML indexManager;
 	
 	private Analyzer analyser;
 	
-	public GlobalSearchManager(String searchWord)
+	public SearchManager(String searchWord)
 	{
 		this.searchWord = searchWord;
-		this.indexManager = new IndexManager();
+		this.indexManager = new IndexManagerXML();
 		this.analyser = new StandardAnalyzer(Version.LUCENE_33);
 	}
 	
-	public List<GlobalSearchResult> globalSearch()
+	public List<BlogSearchResult> globalSearch()
 	{
-		List<GlobalSearchResult> searchResult = new ArrayList<GlobalSearchResult>();
+		List<BlogSearchResult> searchResult = new ArrayList<BlogSearchResult>();
 		Directory index = null;
 		IndexReader reader = null;
 		int hitsPerPage = 10;
@@ -100,7 +100,7 @@ public class GlobalSearchManager
 		    {
 		        int docId = hits[i].doc;
 		        Document d = indexSearcher.doc(docId);
-		        GlobalSearchResult result = new GlobalSearchResult();
+		        BlogSearchResult result = new BlogSearchResult();
 				result.setArticleId(d.get("ArticleId"));
 				result.setTitle(d.get("Title"));
 				result.setPath(d.get("Path"));

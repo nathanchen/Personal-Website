@@ -22,7 +22,7 @@ import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.Version;
 
-import com.nathanchen.model.GlobalSearchResult;
+import com.nathanchen.model.BlogSearchResult;
 
 public class GlobalSearchManager 
 {
@@ -49,9 +49,9 @@ public class GlobalSearchManager
 		this.analyser = new PaodingAnalyzer();
 	}
 	
-	public List<GlobalSearchResult> globalSearch()
+	public List<BlogSearchResult> globalSearch()
 	{
-		List<GlobalSearchResult> searchResult = new ArrayList<GlobalSearchResult>();
+		List<BlogSearchResult> searchResult = new ArrayList<BlogSearchResult>();
 		Directory index = null;
 		IndexReader reader = null;
 		int hitsPerPage = 10;
@@ -112,7 +112,7 @@ public class GlobalSearchManager
 		    {
 		        int docId = hits[i].doc;
 		        Document d = indexSearcher.doc(docId);
-		        GlobalSearchResult result = new GlobalSearchResult();
+		        BlogSearchResult result = new BlogSearchResult();
 				result.setArticleId(d.get("ArticleId"));
 				result.setTitle(d.get("Title"));
 				result.setPath(d.get("Path"));

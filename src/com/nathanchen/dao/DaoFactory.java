@@ -7,7 +7,7 @@ import org.apache.commons.logging.LogFactory;
 public class DaoFactory 
 {
 	private static DaoFactory df;
-	private BlogUserDao blogUserDao;
+	private UserDaoBlog blogUserDao;
 	private Log log = LogFactory.getLog(DaoFactory.class);
 	String classname = this.getClass().getName();
 	
@@ -23,10 +23,10 @@ public class DaoFactory
 		return df;
 	}
 	
-	public BlogUserDao getBlogUserDao()
+	public UserDaoBlog getBlogUserDao()
 	{
 		if(blogUserDao == null)
-			blogUserDao = new BlogUserDaoImpl();
+			blogUserDao = new UserDaoBlogImpl();
 		return blogUserDao;
 	}
 	

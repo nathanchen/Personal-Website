@@ -13,6 +13,8 @@ import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.Version;
 
+import com.nathanchen.utils.ArticleParserXML;
+
 /**
  * if(no bugs){
  *	author = @author NATHAN;
@@ -25,7 +27,7 @@ import org.apache.lucene.util.Version;
  * 	9:59:28 PM
  *	Feb 17, 2012
  */
-public class IndexManager 
+public class IndexManagerXML 
 {
 	
 	private final String dataDir = "/Users/NATHAN/Programming/ForFun/Website/Article Files_original";
@@ -64,7 +66,7 @@ public class IndexManager
 	
 	public void addDocument(String articlePath, IndexWriter indexWriter)
 	{
-		ArticleParser articleParser = new ArticleParser(articlePath);
+		ArticleParserXML articleParser = new ArticleParserXML(articlePath);
 		String title = articleParser.getElement("Title");
 		String tags = articleParser.getElement("Tag"); 
 		String content = articleParser.getElement("ArticleBody");

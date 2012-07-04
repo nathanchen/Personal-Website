@@ -7,7 +7,7 @@ import com.nathanchen.model.Article;
 import com.nathanchen.model.Comment;
 import com.nathanchen.model.Tag;
 
-public interface BlogUserDao 
+public interface UserDaoBlog 
 {
 	/**
 	 * 

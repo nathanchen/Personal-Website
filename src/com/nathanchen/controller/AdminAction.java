@@ -5,7 +5,7 @@ import java.util.Map;
 
 import org.apache.struts2.interceptor.SessionAware;
 
-import com.nathanchen.dao.BlogUserDao;
+import com.nathanchen.dao.UserDaoBlog;
 import com.nathanchen.dao.DaoFactory;
 import com.nathanchen.model.Article;
 import com.nathanchen.model.Comment;
@@ -30,7 +30,7 @@ public class AdminAction extends ActionSupport implements SessionAware
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private BlogUserDao blogUserDao;
+	private UserDaoBlog blogUserDao;
 	private String articleId;
 	
 	// showAllPostsInfo
@@ -221,10 +221,10 @@ public class AdminAction extends ActionSupport implements SessionAware
 		// TODO Auto-generated method stub
 
 	}
-	public BlogUserDao getBlogUserDao() {
+	public UserDaoBlog getBlogUserDao() {
 		return blogUserDao;
 	}
-	public void setBlogUserDao(BlogUserDao blogUserDao) {
+	public void setBlogUserDao(UserDaoBlog blogUserDao) {
 		this.blogUserDao = blogUserDao;
 	}
 	public ArrayList<Article> getAllPosts() {

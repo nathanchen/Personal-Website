@@ -1,4 +1,4 @@
-package com.nathanchen.controller;
+package com.nathanchen.utils;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -78,6 +78,4 @@ public class DateTimeConvertor extends DefaultTypeConverter
 		}
 		return super.convertValue(context, value, toType);
 	}
-	
-	
 }
