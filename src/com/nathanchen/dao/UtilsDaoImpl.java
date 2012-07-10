@@ -1,66 +1,94 @@
 package com.nathanchen.dao;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.util.List;
+import java.util.ArrayList;
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.sql.DataSource;
-
+import com.nathanchen.model.Comment;
+import com.nathanchen.model.Article;
 import com.nathanchen.model.BlogSearchIndexResult;
+import com.nathanchen.model.Tag;
+
 
 public class UtilsDaoImpl implements UtilsDao
 {
-	private DataSource ds;
-	
+
 	/******* SQL statements go here *************************************************************************/
-	StringBuffer getBlogSearchIndexResultList = new StringBuffer("");
-	StringBuffer getTotalNumberOfBlogs = new StringBuffer("select count(*) from Nathan_articles;");
-	
+	StringBuffer	getBlogSearchIndexResultList;
+
+
 	/***********************************************************************************************************/
-	
-	
-	public UtilsDaoImpl()
-	{
-		try
-		{
-			Context initCtx = new InitialContext();
-			Context envCtx = (Context)initCtx.lookup("java:comp/env");
-			ds = (DataSource)envCtx.lookup("jdbc/nathan_test");
-		}
-		catch(Exception e)
-		{
-			e.printStackTrace();
-		}
-	}
-	
+
 	@Override
-	public List<BlogSearchIndexResult> getBlogSearchIndexResultList() 
+	public List<BlogSearchIndexResult> getBlogSearchIndexResultList()
 	{
-		
-		
-		return null;
-	}
-	
-	public int getTotalNumberOfBlogs()
-	{
-		int numberOfBlogs = 0;
+		List<BlogSearchIndexResult> blogSearchIndexResultList = new ArrayList<BlogSearchIndexResult>();
 		try
 		{
-			Connection conn = ds.getConnection();
-			PreparedStatement stmt = conn.prepareStatement(getTotalNumberOfBlogs.toString());
-			ResultSet rs = stmt.executeQuery();
-			if(rs.next())
+			UserDaoBlog userDaoBlog = new UserDaoBlogImpl();
+			ArrayList<Article> allArticles = (ArrayList<Article>) userDaoBlog
+					.getAllArticles();
+			for (int i = 0; i < allArticles.size(); i++)
 			{
-				numberOfBlogs = rs.getInt("count(*)");
+				Article article = allArticles.get(i);
+				String articleId = article.getArticleId();
+				BlogSearchIndexResult blogSearchIndexResult = new BlogSearchIndexResult();
+				blogSearchIndexResult.setArticleId(articleId);
+				blogSearchIndexResult.setArticleBody(article.getArticleBody());
+				blogSearchIndexResult.setAuthor(article.getAuthor());
+				blogSearchIndexResult.setTitle(article.getTitle());
+
+				blogSearchIndexResult = setCommentsInfoToIndexResult(
+						userDaoBlog, articleId, blogSearchIndexResult);
+
+				blogSearchIndexResult = setTagsInfoToIndexResult(userDaoBlog,
+						articleId, blogSearchIndexResult);
+				blogSearchIndexResultList.add(blogSearchIndexResult);
 			}
 		}
-		catch(Exception e)
+		catch (Exception e)
 		{
 			e.printStackTrace();
 		}
-		return numberOfBlogs;
+		return blogSearchIndexResultList;
+	}
+
+
+	private BlogSearchIndexResult setTagsInfoToIndexResult(
+			UserDaoBlog userDaoBlog, String articleId,
+			BlogSearchIndexResult blogSearchIndexResult)
+	{
+		ArrayList<Tag> tagsOfOneArticle = (ArrayList<Tag>) userDaoBlog
+				.getTagsOfOneArticle(articleId);
+		String tagName = "";
+		if (null != tagsOfOneArticle)
+		{
+			for (Tag tag : tagsOfOneArticle)
+			{
+				tagName = tagName + " " + tag.getTagName();
+			}
+		}
+		blogSearchIndexResult.setTagName(tagName);
+		return blogSearchIndexResult;
+	}
+
+
+	private BlogSearchIndexResult setCommentsInfoToIndexResult(
+			UserDaoBlog userDaoBlog, String articleId,
+			BlogSearchIndexResult blogSearchIndexResult)
+	{
+		ArrayList<Comment> commentsOfOneArticle = (ArrayList<Comment>) userDaoBlog
+				.getCommentsOfOneArticle(articleId);
+		String commenter = "", commentBody = "";
+		if (null != commentsOfOneArticle)
+		{
+			for (Comment comment : commentsOfOneArticle)
+			{
+				commenter = commenter + " " + comment.getName();
+				commentBody = commentBody + comment.getMessage();
+			}
+		}
+		blogSearchIndexResult.setCommenter(commenter);
+		blogSearchIndexResult.setCommentBody(commentBody);
+		return blogSearchIndexResult;
 	}
 }

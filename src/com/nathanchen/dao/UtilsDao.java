@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.nathanchen.model.BlogSearchIndexResult;
 
+
 public interface UtilsDao 
 {
 	/**

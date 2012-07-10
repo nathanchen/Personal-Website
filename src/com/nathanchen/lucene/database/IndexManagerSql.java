@@ -1,4 +1,4 @@
-package com.nathanchen.controller;
+package com.nathanchen.lucene.database;
 
 import java.io.File;
 import java.io.IOException;

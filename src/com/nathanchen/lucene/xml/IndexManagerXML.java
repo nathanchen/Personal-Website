@@ -1,4 +1,4 @@
-package com.nathanchen.lucene;
+package com.nathanchen.lucene.xml;
 
 import java.io.File;
 import java.io.IOException;
@@ -27,7 +27,7 @@ import org.apache.lucene.util.Version;
  * 	9:59:28 PM
  *	Feb 17, 2012
  */
-public class IndexManager 
+public class IndexManagerXML 
 {
 	
 	private final String dataDir = "/Users/NATHAN/Programming/ForFun/Website/Article Files_original";

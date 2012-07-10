@@ -12,113 +12,112 @@ import com.nathanchen.model.Comment;
 import com.nathanchen.model.Tag;
 import com.opensymphony.xwork2.ActionSupport;
 
+
 /**
- * if(no bugs){
- *	author = @author NATHAN;
- * }
- * else{
- *	author = "God knows"
- * }
- *
- *	natechen@me.com
- * 	7:49:05 PM
- *	Mar 6, 2012
+ * if(no bugs){ author = @author NATHAN; } else{ author = "God knows" }
+ * 
+ * natechen@me.com 7:49:05 PM Mar 6, 2012
  */
-public class AdminAction extends ActionSupport implements SessionAware 
+public class AdminAction extends ActionSupport implements SessionAware
 {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
-	private UserDaoBlog blogUserDao;
-	private String articleId;
-	
+	private static final long	serialVersionUID	= 1L;
+	private UserDaoBlog			blogUserDao;
+	private String				articleId;
+
 	// showAllPostsInfo
-	private ArrayList<Article> allPosts;
-	
+	private ArrayList<Article>	allPosts;
+
 	// adminEditBlog
 	// postArticle
-	private Article oneArticle;
-	private ArrayList<Comment> allComments;
-	private String commentId;
-	private String tagString;
-	
+	private Article				oneArticle;
+	private ArrayList<Comment>	allComments;
+	private String				commentId;
+	private String				tagString;
+
+
 	// deleteArticle
-	
+
 	// deleteComment
-	
+
 	public String adminIndex()
 	{
 		return SUCCESS;
 	}
-	
-	
+
+
 	public String adminShowAllPostsInfo()
 	{
-		allPosts = new ArrayList<Article>(); 
+		allPosts = new ArrayList<Article>();
 		try
 		{
-			if(blogUserDao == null)
+			if (blogUserDao == null)
 			{
 				blogUserDao = DaoFactory.getInstance().getBlogUserDao();
 			}
 		}
-		catch(Exception e)
+		catch (Exception e)
 		{
 			e.printStackTrace();
 		}
 		allPosts = (ArrayList<Article>) blogUserDao.getAllArticles();
 		return SUCCESS;
 	}
-	
+
+
 	public String adminAddNewPost()
 	{
 		return SUCCESS;
 	}
-	
+
+
 	public String adminEditBlog()
 	{
 		allComments = new ArrayList<Comment>();
 		oneArticle = new Article();
 		try
 		{
-			if(blogUserDao == null)
+			if (blogUserDao == null)
 			{
 				blogUserDao = DaoFactory.getInstance().getBlogUserDao();
 			}
 		}
-		catch(Exception e)
+		catch (Exception e)
 		{
 			e.printStackTrace();
 		}
-		
+
 		// edit an existing post
-		if(Integer.parseInt(articleId) != -1)
+		if (Integer.parseInt(articleId) != -1)
 		{
 			oneArticle = blogUserDao.getArticle(articleId);
-			if(oneArticle.getTags().size() > 0)
+			if (oneArticle.getTags().size() > 0)
 			{
-				for(Tag tag : oneArticle.getTags())
+				for (Tag tag : oneArticle.getTags())
 				{
 					tagString = tagString + "," + tag.getTagName();
 				}
 				tagString = tagString.substring(1);
 			}
-			allComments = (ArrayList<Comment>) blogUserDao.getCommentsOfOneArticle(articleId);
+			allComments = (ArrayList<Comment>) blogUserDao
+					.getCommentsOfOneArticle(articleId);
 		}
-		
+
 		// create a new post
 		else
 		{
 			oneArticle.setArticleId("-1");
 		}
-		
+
 		return SUCCESS;
 	}
-	
+
+
 	public String deleteArticle()
 	{
-		if(Integer.parseInt(oneArticle.getArticleId()) == -1)
+		if (Integer.parseInt(oneArticle.getArticleId()) == -1)
 		{
 			return SUCCESS;
 		}
@@ -126,25 +125,26 @@ public class AdminAction extends ActionSupport implements SessionAware
 		{
 			try
 			{
-				if(blogUserDao == null)
+				if (blogUserDao == null)
 				{
 					blogUserDao = DaoFactory.getInstance().getBlogUserDao();
 				}
 			}
-			catch(Exception e)
+			catch (Exception e)
 			{
 				e.printStackTrace();
 			}
-			int articleCode = blogUserDao.deleteArticle(oneArticle.getArticleId());
-			int commentsCode = blogUserDao.deleteAllComments(oneArticle.getArticleId());
-			
+			int articleCode = blogUserDao.deleteArticle(oneArticle
+					.getArticleId());
+			int commentsCode = blogUserDao.deleteAllComments(oneArticle
+					.getArticleId());
+
 			/*
-			 * return SUCCESS when
-			 * 1. article and comments have been deleted
-			 * 2. article has been deleted and no comment has been found
-			 * 
-			 * */
-			if((articleCode * commentsCode == 1) || ((articleCode * commentsCode == 0) && (commentsCode == 0) ))
+			 * return SUCCESS when 1. article and comments have been deleted 2.
+			 * article has been deleted and no comment has been found
+			 */
+			if ((articleCode * commentsCode == 1)
+					|| ((articleCode * commentsCode == 0) && (commentsCode == 0)))
 			{
 				return SUCCESS;
 			}
@@ -152,123 +152,164 @@ public class AdminAction extends ActionSupport implements SessionAware
 				return ERROR;
 		}
 	}
+
+
 	public String postArticle()
 	{
 		int code;
 		ArrayList<Tag> updatedTags = new ArrayList<Tag>();
 		try
 		{
-			if(blogUserDao == null)
+			if (blogUserDao == null)
 			{
 				blogUserDao = DaoFactory.getInstance().getBlogUserDao();
 			}
 		}
-		catch(Exception e)
+		catch (Exception e)
 		{
 			e.printStackTrace();
 		}
-		if(null != tagString && tagString.length() > 0)
+		if (null != tagString && tagString.length() > 0)
 		{
 			String[] array = tagString.split(",");
-			for(String str : array)
+			for (String str : array)
 			{
 				updatedTags.add(new Tag(str));
 			}
 		}
-		if(Integer.parseInt(oneArticle.getArticleId()) == -1)
+		if (Integer.parseInt(oneArticle.getArticleId()) == -1)
 		{
-			if(null != updatedTags)
+			if (null != updatedTags)
 				oneArticle.setTags(updatedTags);
 			code = blogUserDao.createArticle(oneArticle);
 		}
 		else
 		{
-			if(null != updatedTags)
+			if (null != updatedTags)
 				oneArticle.setTags(updatedTags);
-			code = blogUserDao.editArticle(oneArticle.getArticleId(), oneArticle);
+			code = blogUserDao.editArticle(oneArticle.getArticleId(),
+					oneArticle);
 		}
-		if(code == 1)
+		if (code == 1)
 			return SUCCESS;
 		else
 			return ERROR;
 	}
-	
+
+
 	public String deleteComment()
 	{
 		try
 		{
-			if(blogUserDao == null)
+			if (blogUserDao == null)
 			{
 				blogUserDao = DaoFactory.getInstance().getBlogUserDao();
 			}
 		}
-		catch(Exception e)
+		catch (Exception e)
 		{
 			e.printStackTrace();
 		}
 		int code = blogUserDao.deleteOneComment(commentId);
-		if(code == 1)
+		if (code == 1)
 		{
-			allComments = (ArrayList<Comment>) blogUserDao.getCommentsOfOneArticle(articleId);
+			allComments = (ArrayList<Comment>) blogUserDao
+					.getCommentsOfOneArticle(articleId);
 			return SUCCESS;
 		}
 		else
 			return ERROR;
 	}
-	
+
+
 	@Override
-	public void setSession(Map<String, Object> arg0) {
+	public void setSession(Map<String, Object> arg0)
+	{
 		// TODO Auto-generated method stub
 
 	}
-	public UserDaoBlog getBlogUserDao() {
+
+
+	public UserDaoBlog getBlogUserDao()
+	{
 		return blogUserDao;
 	}
-	public void setBlogUserDao(UserDaoBlog blogUserDao) {
+
+
+	public void setBlogUserDao(UserDaoBlog blogUserDao)
+	{
 		this.blogUserDao = blogUserDao;
 	}
-	public ArrayList<Article> getAllPosts() {
+
+
+	public ArrayList<Article> getAllPosts()
+	{
 		return allPosts;
 	}
-	public void setAllPosts(ArrayList<Article> allPosts) {
+
+
+	public void setAllPosts(ArrayList<Article> allPosts)
+	{
 		this.allPosts = allPosts;
 	}
-	public String getArticleId() {
+
+
+	public String getArticleId()
+	{
 		return articleId;
 	}
-	public void setArticleId(String articleId) {
+
+
+	public void setArticleId(String articleId)
+	{
 		this.articleId = articleId;
 	}
 
-	public Article getOneArticle() {
+
+	public Article getOneArticle()
+	{
 		return oneArticle;
 	}
 
-	public void setOneArticle(Article oneArticle) {
+
+	public void setOneArticle(Article oneArticle)
+	{
 		this.oneArticle = oneArticle;
 	}
 
-	public ArrayList<Comment> getAllComments() {
+
+	public ArrayList<Comment> getAllComments()
+	{
 		return allComments;
 	}
 
-	public void setAllComments(ArrayList<Comment> allComments) {
+
+	public void setAllComments(ArrayList<Comment> allComments)
+	{
 		this.allComments = allComments;
 	}
 
-	public String getCommentId() {
+
+	public String getCommentId()
+	{
 		return commentId;
 	}
 
-	public void setCommentId(String commentId) {
+
+	public void setCommentId(String commentId)
+	{
 		this.commentId = commentId;
 	}
 
-	public String getTagString() {
+
+	public String getTagString()
+	{
 		return tagString;
 	}
 
-	public void setTagString(String tagString) {
+
+	public void setTagString(String tagString)
+	{
 		this.tagString = tagString;
 	}
 }

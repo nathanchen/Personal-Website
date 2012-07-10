@@ -1,4 +1,4 @@
-package com.nathanchen.lucene;
+package com.nathanchen.lucene.xml;
 
 import java.io.FileInputStream;
 import java.io.InputStream;

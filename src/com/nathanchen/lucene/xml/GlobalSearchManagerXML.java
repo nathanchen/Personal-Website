@@ -1,4 +1,4 @@
-package com.nathanchen.lucene;
+package com.nathanchen.lucene.xml;
 
 import java.io.File;
 import java.io.IOException;
@@ -24,28 +24,28 @@ import org.apache.lucene.util.Version;
 
 import com.nathanchen.model.BlogSearchResult;
 
-public class GlobalSearchManager 
+public class GlobalSearchManagerXML 
 {
 	private String searchWord;
 	
-	private IndexManager indexManager;
+	private IndexManagerXML indexManager;
 	
 	private Analyzer analyser;
 	
 	private String searchField;
 	
-	public GlobalSearchManager(String searchWord)
+	public GlobalSearchManagerXML(String searchWord)
 	{
 		this.searchWord = searchWord;
-		this.indexManager = new IndexManager();
+		this.indexManager = new IndexManagerXML();
 		this.analyser = new PaodingAnalyzer();
 	}
 	
-	public GlobalSearchManager(String searchField, String searchWord)
+	public GlobalSearchManagerXML(String searchField, String searchWord)
 	{
 		this.searchField = searchField;
 		this.searchWord = searchWord;
-		this.indexManager = new IndexManager();
+		this.indexManager = new IndexManagerXML();
 		this.analyser = new PaodingAnalyzer();
 	}
 	
