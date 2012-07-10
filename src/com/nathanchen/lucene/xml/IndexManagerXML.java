@@ -70,7 +70,7 @@ public class IndexManagerXML
 		String title = articleParser.getElement("Title");
 		String tags = articleParser.getElement("Tag"); 
 		String content = articleParser.getElement("ArticleBody");
-		String comments = articleParser.getElement("Comment");
+		String comments = articleParser.getElement("Comment");Bolg
 		String path = articleParser.getPath();
 		String articleId = articleParser.getElement("ArticleId");
 		

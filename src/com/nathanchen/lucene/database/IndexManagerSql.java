@@ -2,6 +2,7 @@ package com.nathanchen.lucene.database;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.lucene.analysis.Analyzer;
@@ -13,6 +14,7 @@ import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.Version;
 
 import com.nathanchen.model.Article;
+import com.nathanchen.model.BlogSearchIndexResult;
 import com.nathanchen.model.Comment;
 import com.nathanchen.model.Tag;
 
@@ -20,13 +22,13 @@ public class IndexManagerSql
 {
 	String indexDir = "";
 	
-	public boolean createGlobalIndex(List<Article> allArticles, List<Comment> allComments, List<Tag> allTags) throws IOException
+	public boolean createGlobalIndex(ArrayList<BlogSearchIndexResult> blogSearchIndexResultList) throws IOException
 	{
 		if(true == ifIndexExist())
 		{
 			return true;
 		}
-		if((null == allArticles) && (null == allComments) && (null == allTags))
+		if((null == blogSearchIndexResultList))
 		{
 			return false;
 		}
