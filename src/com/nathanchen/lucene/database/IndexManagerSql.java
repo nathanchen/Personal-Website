@@ -3,59 +3,135 @@ package com.nathanchen.lucene.database;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
+import org.apache.lucene.document.Document;
+import org.apache.lucene.document.Field;
+import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
+import org.apache.lucene.store.LockObtainFailedException;
 import org.apache.lucene.util.Version;
 
-import com.nathanchen.model.Article;
 import com.nathanchen.model.BlogSearchIndexResult;
-import com.nathanchen.model.Comment;
-import com.nathanchen.model.Tag;
+import org.apache.log4j.Logger;
 
-public class IndexManagerSql 
+
+public class IndexManagerSql
 {
-	String indexDir = "";
-	
-	public boolean createGlobalIndex(ArrayList<BlogSearchIndexResult> blogSearchIndexResultList) throws IOException
+	String	indexDir	= "/Users/NATHAN/Programming/ForFun/Personal-Website/Article Files_indexed";
+	Logger	logger		= Logger.getLogger(IndexManagerSql.class);
+
+
+	/**
+	 * 强制建立索引
+	 * 
+	 * */ 
+	public boolean createGlobalIndexForce(
+			ArrayList<BlogSearchIndexResult> blogSearchIndexResultList,
+			boolean overwrite) throws IOException, LockObtainFailedException,
+			IOException
 	{
-		if(true == ifIndexExist())
+		logger.info("强制建立索引开始 ---------- createGlobalIndexForce( ArrayList<BlogSearchIndexResult> blogSearchIndexResultList, boolean overwrite)");
+		return createGlobalIndex(blogSearchIndexResultList);
+	}
+
+	/**
+	 * 如果之前没有索引，则新建；如果之前已存在，则什么也不做
+	 * 
+	 * */
+	public boolean createGlobalIndexIfNotExisted(
+			ArrayList<BlogSearchIndexResult> blogSearchIndexResultList)
+			throws IOException
+	{
+		if (true == ifIndexExist())
 		{
+			logger.info("尝试建立索引不成功 ---------- 索引已存在 ---------- createGlobalIndexIfNotExisted(ArrayList<BlogSearchIndexResult> blogSearchIndexResultList)");
 			return true;
 		}
-		if((null == blogSearchIndexResultList))
+		logger.info("尝试建立索引开始 ---------- createGlobalIndexIfNotExisted(ArrayList<BlogSearchIndexResult> blogSearchIndexResultList)");
+		return createGlobalIndex(blogSearchIndexResultList);
+	}
+
+
+	private boolean createGlobalIndex(
+			ArrayList<BlogSearchIndexResult> blogSearchIndexResultList)
+			throws IOException, CorruptIndexException,
+			LockObtainFailedException
+	{
+		if ((null == blogSearchIndexResultList))
 		{
 			return false;
 		}
+
 		File indexDestination = new File(indexDir);
 		Directory fsDirectory = FSDirectory.open(indexDestination);
 		Analyzer analyser = new StandardAnalyzer(Version.LUCENE_33);
-		IndexWriterConfig iwc = new IndexWriterConfig (Version.LUCENE_33, analyser);
+		IndexWriterConfig iwc = new IndexWriterConfig(Version.LUCENE_33,
+				analyser);
 		IndexWriter myWriter = new IndexWriter(fsDirectory, iwc);
-		
-		if(null != allArticles)
+
+		for (BlogSearchIndexResult indexResult : blogSearchIndexResultList)
 		{
-			for(Article eachArticle : allArticles)
-			{
-				
-			}
+			addDocument(indexResult, myWriter);
+		}
+		myWriter.optimize();
+		myWriter.close();
+		logger.info("建立索引成功 ---------- createGlobalIndex(ArrayList<BlogSearchIndexResult> blogSearchIndexResultList)");
+		return true;
+	}
+
+
+	private void addDocument(BlogSearchIndexResult indexResult,
+			IndexWriter indexWriter)
+	{
+		Document document = new Document();
+
+		String articleId = indexResult.getArticleId();
+		String author = indexResult.getAuthor();
+		String articleBody = indexResult.getArticleBody();
+		String title = indexResult.getTitle();
+		String commenter = indexResult.getCommenter();
+		String commentBody = indexResult.getCommentBody();
+		String tagName = indexResult.getTagName();
+
+		document.add(new Field("articleId", articleId, Field.Store.YES,
+				Field.Index.NOT_ANALYZED));
+		document.add(new Field("author", author, Field.Store.YES,
+				Field.Index.ANALYZED));
+		document.add(new Field("articleBody", articleBody, Field.Store.YES,
+				Field.Index.ANALYZED));
+		document.add(new Field("title", title, Field.Store.YES,
+				Field.Index.ANALYZED));
+		document.add(new Field("commenter", commenter, Field.Store.YES,
+				Field.Index.ANALYZED));
+		document.add(new Field("commentBody", commentBody, Field.Store.YES,
+				Field.Index.ANALYZED));
+		document.add(new Field("tagName", tagName, Field.Store.YES,
+				Field.Index.ANALYZED));
+
+		try
+		{
+			indexWriter.addDocument(document);
+		}
+		catch (Exception e)
+		{
+			logger.error("文档添加到indexWriter失败 ---------- " + document.getFields() + " ---------- createGlobalIndex(ArrayList<BlogSearchIndexResult> blogSearchIndexResultList)");
+			e.printStackTrace();
 		}
 	}
-	
-	public boolean ifIndexExist()
+
+
+	private boolean ifIndexExist()
 	{
 		File directory = new File(indexDir);
-		if(directory.listFiles().length > 0)
+		if (directory.listFiles().length > 0)
 		{
 			return true;
 		}
 		else
 			return false;
 	}
-	
 }
