@@ -9,8 +9,8 @@ public class BlogSearchResult
 	public String getPath() {
 		return path;
 	}
-	public void setPath(String path) {
-		this.path = path;
+	public void setPath(String articleId) {
+		this.path = "/blog/articleId=" + articleId;
 	}
 	public String getTitle() {
 		return title;

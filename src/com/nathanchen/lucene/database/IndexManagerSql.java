@@ -15,14 +15,17 @@ import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.store.LockObtainFailedException;
 import org.apache.lucene.util.Version;
 
+import com.nathanchen.lucene.IndexManager;
 import com.nathanchen.model.BlogSearchIndexResult;
 import org.apache.log4j.Logger;
 
 
-public class IndexManagerSql
+public class IndexManagerSql extends IndexManager
 {
-	String	indexDir	= "/Users/NATHAN/Programming/ForFun/Personal-Website/Article Files_indexed";
-	Logger	logger		= Logger.getLogger(IndexManagerSql.class);
+	public IndexManagerSql()
+	{
+		logger = Logger.getLogger(IndexManagerSql.class);
+	}
 
 
 	/**
@@ -83,55 +86,4 @@ public class IndexManagerSql
 		return true;
 	}
 
-
-	private void addDocument(BlogSearchIndexResult indexResult,
-			IndexWriter indexWriter)
-	{
-		Document document = new Document();
-
-		String articleId = indexResult.getArticleId();
-		String author = indexResult.getAuthor();
-		String articleBody = indexResult.getArticleBody();
-		String title = indexResult.getTitle();
-		String commenter = indexResult.getCommenter();
-		String commentBody = indexResult.getCommentBody();
-		String tagName = indexResult.getTagName();
-
-		document.add(new Field("articleId", articleId, Field.Store.YES,
-				Field.Index.NOT_ANALYZED));
-		document.add(new Field("author", author, Field.Store.YES,
-				Field.Index.ANALYZED));
-		document.add(new Field("articleBody", articleBody, Field.Store.YES,
-				Field.Index.ANALYZED));
-		document.add(new Field("title", title, Field.Store.YES,
-				Field.Index.ANALYZED));
-		document.add(new Field("commenter", commenter, Field.Store.YES,
-				Field.Index.ANALYZED));
-		document.add(new Field("commentBody", commentBody, Field.Store.YES,
-				Field.Index.ANALYZED));
-		document.add(new Field("tagName", tagName, Field.Store.YES,
-				Field.Index.ANALYZED));
-
-		try
-		{
-			indexWriter.addDocument(document);
-		}
-		catch (Exception e)
-		{
-			logger.error("文档添加到indexWriter失败 ---------- " + document.getFields() + " ---------- createGlobalIndex(ArrayList<BlogSearchIndexResult> blogSearchIndexResultList)");
-			e.printStackTrace();
-		}
-	}
-
-
-	private boolean ifIndexExist()
-	{
-		File directory = new File(indexDir);
-		if (directory.listFiles().length > 0)
-		{
-			return true;
-		}
-		else
-			return false;
-	}
 }
