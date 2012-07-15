@@ -8,6 +8,8 @@ import org.apache.struts2.interceptor.SessionAware;
 
 import com.nathanchen.dao.UserDaoBlog;
 import com.nathanchen.dao.DaoFactory;
+import com.nathanchen.lucene.GlobalSearchManager;
+import com.nathanchen.lucene.database.GlobalSearchManagerSql;
 import com.nathanchen.lucene.xml.GlobalSearchManagerXML;
 import com.nathanchen.model.Article;
 import com.nathanchen.model.Comment;
@@ -125,7 +127,7 @@ public class GlobalAction extends ActionSupport implements SessionAware {
 	public String globalSearch() {
 		searchResults = new ArrayList<Article>();
 		String searchWord = keyword;
-		GlobalSearchManagerXML searchManager = new GlobalSearchManagerXML(searchWord);
+		GlobalSearchManager searchManager = new GlobalSearchManagerSql(searchWord);
 		ArrayList<BlogSearchResult> temp = (ArrayList<BlogSearchResult>) searchManager
 				.globalSearch();
 		for (BlogSearchResult gsr : temp) {

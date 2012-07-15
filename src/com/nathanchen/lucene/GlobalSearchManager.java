@@ -1,38 +1,105 @@
-package com.nathanchen.lucene.xml;
+package com.nathanchen.lucene;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.paoding.analysis.analyzer.PaodingAnalyzer;
+
+import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.document.Document;
+import org.apache.lucene.index.CorruptIndexException;
+import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.queryParser.MultiFieldQueryParser;
 import org.apache.lucene.queryParser.ParseException;
 import org.apache.lucene.search.BooleanClause;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
+import org.apache.lucene.search.TopScoreDocCollector;
+import org.apache.lucene.search.TotalHitCountCollector;
+import org.apache.lucene.store.Directory;
+import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.Version;
 
-import com.nathanchen.lucene.GlobalSearchManager;
+import com.nathanchen.lucene.xml.IndexManagerXML;
 import com.nathanchen.model.BlogSearchResult;
 
 
-public class GlobalSearchManagerXML extends GlobalSearchManager
+public abstract class GlobalSearchManager
 {
-	public GlobalSearchManagerXML(String searchWord)
+	protected String	searchWord;
+	protected Analyzer	analyser;
+	protected String	searchField;
+	protected IndexManager	indexManager;
+
+	public GlobalSearchManager(String searchWord)
 	{
-		super(searchWord);
-		this.indexManager = new IndexManagerXML();
+		this.searchWord = searchWord;
+		this.analyser = new PaodingAnalyzer();
 	}
 
 
-	public GlobalSearchManagerXML(String searchField, String searchWord)
+	public GlobalSearchManager(String searchField, String searchWord)
 	{
-		super(searchField, searchWord);
-		this.indexManager = new IndexManagerXML();
+		this.searchField = searchField;
+		this.searchWord = searchWord;
+		this.analyser = new PaodingAnalyzer();
 	}
 
 
+
+	protected ScoreDoc[] searchHitsCollector(IndexSearcher indexSearcher,
+			Query query) throws IOException
+	{
+		TotalHitCountCollector counter = new TotalHitCountCollector();
+		indexSearcher.search(query, counter);
+
+		TopScoreDocCollector collector = TopScoreDocCollector.create(
+				counter.getTotalHits(), true);
+		indexSearcher.search(query, collector);
+		ScoreDoc[] hits = collector.topDocs().scoreDocs;
+		return hits;
+	}
+
+
+	protected IndexSearcher getIndexSearcher()
+	{
+		Directory index = null;
+		IndexReader reader = null;
+		try
+		{
+			index = FSDirectory.open(new File(indexManager.getIndexDir()));
+		}
+		catch (IOException e2)
+		{
+			e2.printStackTrace();
+		}
+		try
+		{
+			reader = IndexReader.open(index);
+		}
+		catch (CorruptIndexException e1)
+		{
+			e1.printStackTrace();
+		}
+		catch (IOException e1)
+		{
+			e1.printStackTrace();
+		}
+		IndexSearcher indexSearcher = null;
+		try
+		{
+			indexSearcher = new IndexSearcher(reader);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		return indexSearcher;
+	}
+	
 	public List<BlogSearchResult> globalSearch()
 	{
 		List<BlogSearchResult> searchResult = new ArrayList<BlogSearchResult>();
@@ -90,4 +157,5 @@ public class GlobalSearchManagerXML extends GlobalSearchManager
 		}
 		return searchResult;
 	}
+
 }

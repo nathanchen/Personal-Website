@@ -9,10 +9,12 @@ import org.apache.lucene.index.IndexWriter;
 
 import com.nathanchen.model.BlogSearchIndexResult;
 
+
 public abstract class IndexManager
 {
 	protected String	indexDir	= "/Users/NATHAN/Programming/ForFun/Personal-Website/Article Files_indexed";
-	protected Logger	logger	;
+	protected Logger	logger;
+
 
 	protected void addDocument(BlogSearchIndexResult indexResult,
 			IndexWriter indexWriter)
@@ -41,20 +43,21 @@ public abstract class IndexManager
 				Field.Index.ANALYZED));
 		document.add(new Field("tagName", tagName, Field.Store.YES,
 				Field.Index.ANALYZED));
-
 		try
 		{
 			indexWriter.addDocument(document);
 		}
 		catch (Exception e)
 		{
-			logger.error("文档添加到indexWriter失败 ---------- " + document.getFields() + " ---------- createGlobalIndex(ArrayList<BlogSearchIndexResult> blogSearchIndexResultList)");
+			logger.error("文档添加到indexWriter失败 ---------- "
+					+ document.getFields()
+					+ " ---------- createGlobalIndex(ArrayList<BlogSearchIndexResult> blogSearchIndexResultList)");
 			e.printStackTrace();
 		}
 	}
 
 
-	protected boolean ifIndexExist()
+	public boolean ifIndexExist()
 	{
 		File directory = new File(indexDir);
 		if (directory.listFiles().length > 0)
@@ -64,4 +67,13 @@ public abstract class IndexManager
 		else
 			return false;
 	}
+
+
+	public String getIndexDir()
+	{
+		return this.indexDir;
+	}
+
+
+	public abstract boolean createGlobalIndex();
 }

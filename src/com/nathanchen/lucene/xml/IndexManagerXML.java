@@ -2,9 +2,11 @@ package com.nathanchen.lucene.xml;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import net.paoding.analysis.analyzer.PaodingAnalyzer;
 
+import org.apache.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
@@ -26,32 +28,25 @@ public class IndexManagerXML extends IndexManager
 	String	dataDir	= "";
 
 
-	public boolean createIndex() throws IOException
+	public IndexManagerXML()
 	{
-		if (true == ifIndexExist())
-		{
-			return true;
-		}
-		File dir = new File(dataDir);
-		if (!dir.exists())
-		{
-			return false;
-		}
-		File[] xmls = dir.listFiles();
+		logger = Logger.getLogger(IndexManagerXML.class);
+	}
+
+
+	public boolean createGlobalIndex(ArrayList<BlogSearchIndexResult> blogSearchIndexResultList) throws IOException
+	{
 		File destination = new File(indexDir);
 		Directory fsDirectory = FSDirectory.open(destination);
 		Analyzer analyser = new PaodingAnalyzer();
 		IndexWriterConfig iwc = new IndexWriterConfig(Version.LUCENE_33,
 				analyser);
 		IndexWriter myWriter = new IndexWriter(fsDirectory, iwc);
-		for (int i = 0; i < xmls.length; i++)
+		
+		for (int i = 0; i < blogSearchIndexResultList.size(); i++)
 		{
-			String articlePath = xmls[i].getAbsolutePath();
-			if (articlePath.endsWith("xml"))
-			{
-				BlogSearchIndexResult indexResult = parseXmlFile(articlePath);
-				addDocument(indexResult, myWriter);
-			}
+			BlogSearchIndexResult indexResult = blogSearchIndexResultList.get(i);
+			addDocument(indexResult, myWriter);
 		}
 		myWriter.optimize();
 		myWriter.close();
@@ -59,7 +54,7 @@ public class IndexManagerXML extends IndexManager
 	}
 
 
-	private BlogSearchIndexResult parseXmlFile(String articlePath)
+	private BlogSearchIndexResult parseOneXmlFile(String articlePath)
 	{
 		BlogSearchIndexResult indexResult = new BlogSearchIndexResult();
 		ArticleParserXML articleParser = new ArticleParserXML(articlePath);
@@ -74,6 +69,31 @@ public class IndexManagerXML extends IndexManager
 		return indexResult;
 	}
 
+	
+	private ArrayList<BlogSearchIndexResult> parseAllXmlFiles()
+	{
+		ArrayList<BlogSearchIndexResult> blogSearchIndexResultList = new ArrayList<BlogSearchIndexResult>();
+		if (true == ifIndexExist())
+		{
+			return blogSearchIndexResultList;
+		}
+		File dir = new File(dataDir);
+		if (!dir.exists())
+		{
+			return null;
+		}
+		File[] xmls = dir.listFiles();
+		for (int i = 0; i < xmls.length; i++)
+		{
+			String articlePath = xmls[i].getAbsolutePath();
+			if (articlePath.endsWith("xml"))
+			{
+				BlogSearchIndexResult indexResult = parseOneXmlFile(articlePath);
+				blogSearchIndexResultList.add(indexResult);
+			}
+		}
+		return blogSearchIndexResultList;
+	}
 
 	public String getDataDir()
 	{
@@ -81,9 +101,6 @@ public class IndexManagerXML extends IndexManager
 	}
 
 
-	public String getIndexDir()
-	{
-		return this.indexDir;
-	}
+	
 
 }

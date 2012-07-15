@@ -5,8 +5,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
-import org.apache.lucene.document.Document;
-import org.apache.lucene.document.Field;
 import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
@@ -15,6 +13,8 @@ import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.store.LockObtainFailedException;
 import org.apache.lucene.util.Version;
 
+import com.nathanchen.dao.UtilsDao;
+import com.nathanchen.dao.UtilsDaoImpl;
 import com.nathanchen.lucene.IndexManager;
 import com.nathanchen.model.BlogSearchIndexResult;
 import org.apache.log4j.Logger;
@@ -86,4 +86,9 @@ public class IndexManagerSql extends IndexManager
 		return true;
 	}
 
+	private ArrayList<BlogSearchIndexResult> parseAllXmlFiles()
+	{
+		UtilsDao utilDao = new UtilsDaoImpl();
+		return (ArrayList<BlogSearchIndexResult>) utilDao.getBlogSearchIndexResultList();
+	}
 }

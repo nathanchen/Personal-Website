@@ -8,10 +8,11 @@ import net.paoding.analysis.analyzer.PaodingAnalyzer;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.store.Directory;
 
+import com.nathanchen.lucene.GlobalSearchManager;
 import com.nathanchen.model.BlogSearchResult;
 
 
-public class GlobalSearchManagerSql
+public class GlobalSearchManagerSql extends GlobalSearchManager
 {
 	private String			searchWord;
 	private IndexManagerSql	indexManager;
