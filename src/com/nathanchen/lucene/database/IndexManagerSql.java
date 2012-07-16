@@ -36,10 +36,18 @@ public class IndexManagerSql extends IndexManager
 			ArrayList<BlogSearchIndexResult> blogSearchIndexResultList,
 			boolean overwrite)
 	{
+
 		if (ifIndexExist() && !overwrite)
 		{
-			logger.info("尝试建立索引不成功 ---------- 索引已存在 ---------- createGlobalIndexIfNotExisted(ArrayList<BlogSearchIndexResult> blogSearchIndexResultList)");
+			logger.info("尝试建立索引不成功 ---------- 索引已存在 ---------- createGlobalIndexForce( ArrayList<BlogSearchIndexResult> blogSearchIndexResultList, boolean overwrite)");
 			return true;
+		}
+		
+		blogSearchIndexResultList = parseAllFiles();
+		if(null == blogSearchIndexResultList)
+		{
+			logger.info("尝试建立索引不成功 ---------- 数据库中没有相关数据 ---------- createGlobalIndexForce( ArrayList<BlogSearchIndexResult> blogSearchIndexResultList, boolean overwrite)");
+			return false;
 		}
 		
 		logger.info("强制建立索引开始 ---------- createGlobalIndexForce( ArrayList<BlogSearchIndexResult> blogSearchIndexResultList, boolean overwrite)");

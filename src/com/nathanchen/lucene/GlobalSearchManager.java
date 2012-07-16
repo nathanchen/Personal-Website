@@ -23,7 +23,7 @@ import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.Version;
 
-import com.nathanchen.lucene.xml.IndexManagerXML;
+import com.nathanchen.model.BlogSearchIndexResult;
 import com.nathanchen.model.BlogSearchResult;
 
 
@@ -49,6 +49,65 @@ public abstract class GlobalSearchManager
 	}
 
 
+	public List<BlogSearchResult> globalSearch()
+	{
+		List<BlogSearchResult> searchResult = new ArrayList<BlogSearchResult>();
+
+		if (!indexManager.ifIndexExist())
+		{
+			System.out.println("indexManager.ifIndexExist()");
+			try
+			{
+				if (false == indexManager.createGlobalIndex(new ArrayList<BlogSearchIndexResult>(), false))
+				{
+					return searchResult;
+				}
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+				return searchResult;
+			}
+		}
+
+		IndexSearcher indexSearcher = getIndexSearcher();
+
+		try
+		{
+			String[] fields = { "articleId", "author", "articleBody", "title",
+					"commenter", "commentBody", "tagName" };
+			BooleanClause.Occur[] flags = { BooleanClause.Occur.SHOULD,
+					BooleanClause.Occur.SHOULD, BooleanClause.Occur.SHOULD,
+					BooleanClause.Occur.SHOULD, BooleanClause.Occur.SHOULD,
+					BooleanClause.Occur.SHOULD, BooleanClause.Occur.SHOULD, };
+
+			Query query = MultiFieldQueryParser.parse(Version.LUCENE_33,
+					searchWord, fields, flags, analyser);
+			ScoreDoc[] hits = searchHitsCollector(indexSearcher, query);
+			for (int i = 0; i < hits.length; i++)
+			{
+				int docId = hits[i].doc;
+				Document d = indexSearcher.doc(docId);
+				BlogSearchResult result = new BlogSearchResult();
+				result.setArticleId(d.get("articleId"));
+				result.setTitle(d.get("title"));
+				result.setPath(d.get("articleId"));
+				searchResult.add(result);
+			}
+			indexSearcher.close();
+		}
+		catch (ParseException e1)
+		{
+			e1.printStackTrace();
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+		return searchResult;
+	}
+
+	
 
 	protected ScoreDoc[] searchHitsCollector(IndexSearcher indexSearcher,
 			Query query) throws IOException
@@ -100,62 +159,4 @@ public abstract class GlobalSearchManager
 		return indexSearcher;
 	}
 	
-	public List<BlogSearchResult> globalSearch()
-	{
-		List<BlogSearchResult> searchResult = new ArrayList<BlogSearchResult>();
-
-		if (false == indexManager.ifIndexExist())
-		{
-			System.out.println("indexManager.ifIndexExist()");
-			try
-			{
-				if (false == indexManager.createGlobalIndex())
-				{
-					return searchResult;
-				}
-			}
-			catch (Exception e)
-			{
-				e.printStackTrace();
-				return searchResult;
-			}
-		}
-
-		IndexSearcher indexSearcher = getIndexSearcher();
-
-		try
-		{
-			String[] fields = { "articleId", "author", "articleBody", "title",
-					"commenter", "commentBody", "tagName" };
-			BooleanClause.Occur[] flags = { BooleanClause.Occur.SHOULD,
-					BooleanClause.Occur.SHOULD, BooleanClause.Occur.SHOULD,
-					BooleanClause.Occur.SHOULD, BooleanClause.Occur.SHOULD,
-					BooleanClause.Occur.SHOULD, BooleanClause.Occur.SHOULD, };
-
-			Query query = MultiFieldQueryParser.parse(Version.LUCENE_33,
-					searchWord, fields, flags, analyser);
-			ScoreDoc[] hits = searchHitsCollector(indexSearcher, query);
-			for (int i = 0; i < hits.length; i++)
-			{
-				int docId = hits[i].doc;
-				Document d = indexSearcher.doc(docId);
-				BlogSearchResult result = new BlogSearchResult();
-				result.setArticleId(d.get("articleId"));
-				result.setTitle(d.get("title"));
-				result.setPath(d.get("articleId"));
-				searchResult.add(result);
-			}
-			indexSearcher.close();
-		}
-		catch (ParseException e1)
-		{
-			e1.printStackTrace();
-		}
-		catch (IOException e)
-		{
-			e.printStackTrace();
-		}
-		return searchResult;
-	}
-
 }
