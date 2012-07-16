@@ -10,7 +10,6 @@ import com.nathanchen.dao.UserDaoBlog;
 import com.nathanchen.dao.DaoFactory;
 import com.nathanchen.lucene.GlobalSearchManager;
 import com.nathanchen.lucene.database.GlobalSearchManagerSql;
-import com.nathanchen.lucene.xml.GlobalSearchManagerXML;
 import com.nathanchen.model.Article;
 import com.nathanchen.model.Comment;
 import com.nathanchen.model.BlogSearchResult;
