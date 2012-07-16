@@ -1,7 +1,6 @@
 package com.nathanchen.lucene.xml;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 
 import net.paoding.analysis.analyzer.PaodingAnalyzer;
@@ -34,22 +33,51 @@ public class IndexManagerXML extends IndexManager
 	}
 
 
-	public boolean createGlobalIndex(ArrayList<BlogSearchIndexResult> blogSearchIndexResultList) throws IOException
+	public boolean createGlobalIndex(ArrayList<BlogSearchIndexResult> blogSearchIndexResultList, boolean overwrite)
 	{
+		blogSearchIndexResultList = parseAllXmlFiles(overwrite);
+		if(null == blogSearchIndexResultList)
+		{
+			return false;
+		}
 		File destination = new File(indexDir);
-		Directory fsDirectory = FSDirectory.open(destination);
+		Directory fsDirectory = null;
+		try
+		{
+			fsDirectory = FSDirectory.open(destination);
+		}
+		catch (Exception e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		Analyzer analyser = new PaodingAnalyzer();
 		IndexWriterConfig iwc = new IndexWriterConfig(Version.LUCENE_33,
 				analyser);
-		IndexWriter myWriter = new IndexWriter(fsDirectory, iwc);
+		IndexWriter myWriter = null;
+		try
+		{
+			myWriter = new IndexWriter(fsDirectory, iwc);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
 		
 		for (int i = 0; i < blogSearchIndexResultList.size(); i++)
 		{
 			BlogSearchIndexResult indexResult = blogSearchIndexResultList.get(i);
 			addDocument(indexResult, myWriter);
 		}
-		myWriter.optimize();
-		myWriter.close();
+		try
+		{
+			myWriter.optimize();
+			myWriter.close();
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
 		return true;
 	}
 
@@ -70,12 +98,12 @@ public class IndexManagerXML extends IndexManager
 	}
 
 	
-	private ArrayList<BlogSearchIndexResult> parseAllXmlFiles()
+	private ArrayList<BlogSearchIndexResult> parseAllXmlFiles(boolean overwrite)
 	{
 		ArrayList<BlogSearchIndexResult> blogSearchIndexResultList = new ArrayList<BlogSearchIndexResult>();
-		if (true == ifIndexExist())
+		if (ifIndexExist() && !overwrite)
 		{
-			return blogSearchIndexResultList;
+			return null;
 		}
 		File dir = new File(dataDir);
 		if (!dir.exists())
@@ -99,8 +127,5 @@ public class IndexManagerXML extends IndexManager
 	{
 		return this.dataDir;
 	}
-
-
-	
 
 }

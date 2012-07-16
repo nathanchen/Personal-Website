@@ -1,6 +1,7 @@
 package com.nathanchen.lucene;
 
 import java.io.File;
+import java.util.ArrayList;
 
 import org.apache.log4j.Logger;
 import org.apache.lucene.document.Document;
@@ -14,6 +15,11 @@ public abstract class IndexManager
 {
 	protected String	indexDir	= "/Users/NATHAN/Programming/ForFun/Personal-Website/Article Files_indexed";
 	protected Logger	logger;
+
+
+	protected abstract boolean createGlobalIndex(
+			ArrayList<BlogSearchIndexResult> blogSearchIndexResultList,
+			boolean overwrite);
 
 
 	protected void addDocument(BlogSearchIndexResult indexResult,
@@ -73,7 +79,4 @@ public abstract class IndexManager
 	{
 		return this.indexDir;
 	}
-
-
-	public abstract boolean createGlobalIndex();
 }

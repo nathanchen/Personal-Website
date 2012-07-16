@@ -32,30 +32,27 @@ public class IndexManagerSql extends IndexManager
 	 * 强制建立索引
 	 * 
 	 * */ 
-	public boolean createGlobalIndexForce(
+	public boolean createGlobalIndex(
 			ArrayList<BlogSearchIndexResult> blogSearchIndexResultList,
-			boolean overwrite) throws IOException, LockObtainFailedException,
-			IOException
+			boolean overwrite)
 	{
-		logger.info("强制建立索引开始 ---------- createGlobalIndexForce( ArrayList<BlogSearchIndexResult> blogSearchIndexResultList, boolean overwrite)");
-		return createGlobalIndex(blogSearchIndexResultList);
-	}
-
-	/**
-	 * 如果之前没有索引，则新建；如果之前已存在，则什么也不做
-	 * 
-	 * */
-	public boolean createGlobalIndexIfNotExisted(
-			ArrayList<BlogSearchIndexResult> blogSearchIndexResultList)
-			throws IOException
-	{
-		if (true == ifIndexExist())
+		if (ifIndexExist() && !overwrite)
 		{
 			logger.info("尝试建立索引不成功 ---------- 索引已存在 ---------- createGlobalIndexIfNotExisted(ArrayList<BlogSearchIndexResult> blogSearchIndexResultList)");
 			return true;
 		}
-		logger.info("尝试建立索引开始 ---------- createGlobalIndexIfNotExisted(ArrayList<BlogSearchIndexResult> blogSearchIndexResultList)");
-		return createGlobalIndex(blogSearchIndexResultList);
+		
+		logger.info("强制建立索引开始 ---------- createGlobalIndexForce( ArrayList<BlogSearchIndexResult> blogSearchIndexResultList, boolean overwrite)");
+		try
+		{
+			return createGlobalIndex(blogSearchIndexResultList);
+		}
+		catch (Exception e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
 	}
 
 
@@ -86,9 +83,10 @@ public class IndexManagerSql extends IndexManager
 		return true;
 	}
 
-	private ArrayList<BlogSearchIndexResult> parseAllXmlFiles()
+	private ArrayList<BlogSearchIndexResult> parseAllFiles()
 	{
 		UtilsDao utilDao = new UtilsDaoImpl();
 		return (ArrayList<BlogSearchIndexResult>) utilDao.getBlogSearchIndexResultList();
 	}
+
 }

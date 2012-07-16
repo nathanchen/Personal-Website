@@ -15,7 +15,6 @@ public class UtilsDaoImpl implements UtilsDao
 	/******* SQL statements go here *************************************************************************/
 	StringBuffer	getBlogSearchIndexResultList;
 
-
 	/***********************************************************************************************************/
 
 	@Override
